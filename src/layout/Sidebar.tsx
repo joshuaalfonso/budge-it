@@ -35,8 +35,8 @@ export default function Sidebar() {
         <aside className="hidden sticky top-0 lg:flex lg:w-64 lg:flex-col border-r h-full">
 
             <div className="flex h-16 items-center px-6">
-                <h1 className="text-lg font-semibold">
-                    Expense Tracker
+                <h1 className="text-lg! font-semibold!">
+                    Budget Tracker
                 </h1>
             </div>
 

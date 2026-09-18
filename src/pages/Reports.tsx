@@ -1,4 +1,6 @@
 
+import SpendByCategoryChart from "@/components/reports/SpendByCategoryChart";
+import SpendByWalletChart from "@/components/reports/SpendByWalletChart";
 import SpendTrendChart from "@/components/reports/SpendTrendChart";
 import { LuArrowDownRight, LuArrowUpRight, LuCalendarDays } from "react-icons/lu";
 
@@ -129,9 +131,7 @@ export default function Reports() {
                         </div>
 
                         <div className="flex h-64 items-center justify-center rounded-xl bg-(--chakra-colors-bg-subtle)">
-                            <p className="text-sm text-zinc-400">
-                                Your chart goes here
-                            </p>
+                            <SpendByCategoryChart />
                         </div>
                     </section>
 
@@ -148,59 +148,11 @@ export default function Reports() {
                         </div>
 
                         <div className="flex h-64 items-center justify-center rounded-xl bg-(--chakra-colors-bg-subtle)">
-                        <p className="text-sm text-zinc-400">
-                            Your chart goes here
-                        </p>
+                            <SpendByWalletChart />
                         </div>
                     </section>
                 </div>
 
-                {/* Top categories */}
-                <section className="rounded-md border p-4! bg-(--chakra-colors-bg-subtle) sm:p-5!">
-                    <div className="mb-5!">
-                        <h2 className="text-base! font-semibold!">
-                            Top spending categories
-                        </h2>
-
-                        <p className="mt-1! text-sm! text-(--chakra-colors-fg-muted)">
-                            Your biggest expense categories this month
-                        </p>
-                    </div>
-
-                    <div className="space-y-4!">
-                        {[
-                            { name: "Food", amount: 6450, percentage: 32 },
-                            { name: "Bills", amount: 5200, percentage: 26 },
-                            { name: "Shopping", amount: 4200, percentage: 21 },
-                            { name: "Transportation", amount: 2850, percentage: 14 },
-                            { name: "Entertainment", amount: 1680, percentage: 8 },
-                        ].map((category) => (
-
-                            <div key={category.name}>
-                                <div className="mb-1.5! flex items-center justify-between text-sm!">
-                                    <span className="font-medium">
-                                        {category.name}
-                                    </span>
-
-                                    <span className="text-(--chakra-colors-fg-muted)">
-                                        ₱{category.amount.toLocaleString()}
-                                    </span>
-                                    </div>
-
-                                    <div className="h-2 overflow-hidden rounded-full bg-(--chakra-colors-bg-muted)/80 ">
-                                    <div
-                                        className="h-full rounded-full bg-orange-400"
-                                        style={{
-                                        width: `${category.percentage}%`,
-                                        }}
-                                    />
-                                </div>
-                            </div>
-
-                        ))}
-                    </div>
-
-                </section>
             </div>
         </div>
     );

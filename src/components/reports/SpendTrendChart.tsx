@@ -1,19 +1,24 @@
 import { Chart, useChart } from "@chakra-ui/charts"
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
-
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+} from "recharts"
 
 const SpendTrendChart = () => {
     const chart = useChart({
         data: [
-        { value: 60, month: "Jan" },
-        { value: 45, month: "Feb" },
-        { value: 12, month: "Mar" },
-        { value: 80, month: "Apr" },
-        { value: 100, month: "May" },
-        { value: 30, month: "Nov" },
-        { value: 70, month: "Dec" },
+        { income: 60, month: "Jan" },
+        { income: 45, month: "Feb" },
+        { income: 12, month: "Mar" },
+        { income: 80, month: "Apr" },
+        { income: 100, month: "May" },
+        { income: 30, month: "Nov" },
+        { income: 70, month: "Dec" },
         ],
-        series: [{ name: "value", color: "orange.solid" }],
+        series: [{ name: "income", color: "orange.solid" }],
     })
     return (
         <Chart.Root maxH="xs" chart={chart}>
@@ -24,7 +29,7 @@ const SpendTrendChart = () => {
                     axisLine={false}
                     tickLine={false}
                     domain={[0, 100]}
-                    tickFormatter={(value) => `${value}%`}
+                    tickFormatter={(income) => `${income}%`}
                 />
                 {chart.series.map((item) => (
                     <Bar
@@ -39,6 +44,9 @@ const SpendTrendChart = () => {
             </BarChart>
         </Chart.Root>
     )
+
 }
+
+  
 
 export default SpendTrendChart

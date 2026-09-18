@@ -3,7 +3,7 @@ import { LuBell } from "react-icons/lu";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 left-0 w-full bg-(--chakra-colors-bg) flex h-16 items-center justify-between border-b  px-4! sm:px-6">
+    <header className="sticky top-0 left-0 w-full bg-(--chakra-colors-bg) flex h-16 items-center justify-between border-b  px-4! sm:px-6 z-10">
        
         <h2 className="text-sm font-semibold">
         </h2>
