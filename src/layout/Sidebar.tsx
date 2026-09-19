@@ -6,6 +6,7 @@ import {
     LuWallet
 } from "react-icons/lu";
 import { NavLink } from "react-router-dom";
+import wallet from '../assets/wallet.png'
 
 const navItems = [
     {
@@ -34,7 +35,10 @@ export default function Sidebar() {
     return (
         <aside className="hidden sticky top-0 lg:flex lg:w-64 lg:flex-col border-r h-full">
 
-            <div className="flex h-16 items-center px-6">
+            <div className="flex h-16 items-center gap-2 px-6">
+                <div className="w-6 h-6">
+                    <img src={wallet} alt="logo" />
+                </div>
                 <h1 className="text-lg! font-semibold!">
                     Budget Tracker
                 </h1>

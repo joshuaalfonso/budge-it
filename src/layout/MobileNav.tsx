@@ -33,7 +33,7 @@ const navItems = [
 
 export default function MobileNav() {
   return (
-    <nav className="fixed bottom-2 left-4 right-4 z-50 rounded-4xl px-1! py-1! bg-(--chakra-colors-bg-subtle)! border! border-(--chakra-colors-border-muted)! lg:hidden">
+    <nav className="fixed bottom-2 left-4 right-4 z-50 rounded-4xl px-1! py-1! backdrop-blur-md border! border-(--chakra-colors-border-muted)! lg:hidden">
       <div className="relative grid grid-cols-4 px-2 py-2">
         {navItems.map((item) => {
           const Icon = item.icon;
