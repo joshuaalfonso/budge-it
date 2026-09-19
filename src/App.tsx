@@ -5,6 +5,7 @@ import Transactions from "./pages/Transactions"
 import Wallets from "./pages/Wallets"
 import Reports from "./pages/Reports"
 import Settings from "./pages/Settings"
+import Home from "./pages/Home"
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route path="/reports" element={<Reports />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
+          <Route path="/home" element={<Home />} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
