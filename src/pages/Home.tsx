@@ -1,38 +1,36 @@
 import { GoogleLogin } from "@react-oauth/google";
-import { jwtDecode, type JwtPayload } from "jwt-decode";
-import { useState } from "react";
+import { verifyGoogleCredential } from "../api/auth";
+import { useNavigate } from "react-router-dom";
 
-interface GoogleJwtPayload extends JwtPayload {
-    name?: string;
-    email?: string;
-    picture?: string;
-}
+// interface GoogleJwtPayload {
+//     googleId?: string;
+//     name?: string;
+//     email?: string;
+//     picture?: string;
+// }
 
 const Home = () => {
-    const [user, setUser] = useState<GoogleJwtPayload>();
+
+    const navigate = useNavigate();
 
     return (
         <div className="h-dvh grid place-items-center">
             <GoogleLogin
-                onSuccess={(response) => {
-                    const decoded = jwtDecode<GoogleJwtPayload>(
-                        response.credential ?? ""
-                    );
+                onSuccess={async (response) => {
+                    if (!response.credential) {
+                        return;
+                    }
 
-                    setUser(decoded);
+                    try {
+                        const result = await verifyGoogleCredential(response.credential);
+                        console.log(result);
+                        navigate("/dashboard");
+                    } catch (error) {
+                        console.error(error);
+                    }
                 }}
                 onError={() => console.log("error")}
             />
-
-            {user && (
-                <>
-                    <p>{user.name}</p>
-                    <p>{user.email}</p>
-                    {user.picture && (
-                        <img src={user.picture} alt={user.name ?? "User"} referrerPolicy="no-referrer" />
-                    )}
-                </>
-            )}
         </div>
     );
 };

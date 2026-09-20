@@ -6,6 +6,7 @@ import Wallets from "./pages/Wallets"
 import Reports from "./pages/Reports"
 import Settings from "./pages/Settings"
 import Home from "./pages/Home"
+import { Protected } from "./pages/Protected"
 
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route element={<AppLayout />}>
+          <Route element={<Protected><AppLayout /></Protected>}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/transactions" element={<Transactions />} />
             <Route path="/wallets" element={<Wallets />} />
