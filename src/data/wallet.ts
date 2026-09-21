@@ -25,3 +25,26 @@ export const wallets: Wallet[] = [
     balance: 6000,
   },
 ];
+
+export const walletType: {label: string, value: string}[] = [
+  {
+    label: 'Cash',
+    value: 'cash'
+  },
+  {
+    label: 'Debit/Savings',
+    value: 'savings'
+  },
+  {
+    label: 'Credit Card',
+    value: 'credit_card'
+  },
+  {
+    label: 'E-Wallet',
+    value: 'e_wallet'
+  },
+  {
+    label: 'Other',
+    value: 'other'
+  },
+]

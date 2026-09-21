@@ -1,31 +1,103 @@
-import { ColorModeButton } from "@/components/ui/color-mode";
-import { LuBell } from "react-icons/lu";
+import { logout } from "@/api/auth";
+import { useColorMode } from "@/components/ui/color-mode";
+
+import { useMe } from "@/queries/auth.queries";
+import { Avatar, Menu, Portal } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { LuLogOut, LuMoon, LuSun } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
-  return (
-    <header className="sticky top-0 left-0 w-full bg-(--chakra-colors-bg) flex h-16 items-center justify-between border-b  px-4! sm:px-6 z-10">
-       
-        <h2 className="text-sm font-semibold">
-        </h2>
 
-      <div className="ml-auto flex items-center gap-2">
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-        <ColorModeButton />
+    const { colorMode, toggleColorMode } = useColorMode()
 
-        <button
-          className="rounded-lg p-2 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-900 dark:hover:text-white"
-          aria-label="Notifications"
-        >
-          <LuBell size={20} />
-        </button>
+    const navigate = useNavigate();
 
-        <button
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-100 text-sm font-medium dark:bg-zinc-800"
-          aria-label="Profile"
-        >
-          J
-        </button>
-      </div>
-    </header>
-  );
+    const { data: user } = useMe();
+
+    const queryClient = useQueryClient();
+
+    const handleLogout = async () => {
+        try {
+
+            setIsLoggingOut(true);
+            await logout();
+
+            queryClient.removeQueries({
+                queryKey: ["me"],
+            });
+
+            navigate("/login");
+        } catch (error) {
+            console.error("Logout failed", error);
+        } finally {
+            setIsLoggingOut(false);
+        }
+    };
+
+    return (
+        <header className="sticky top-0 left-0 w-full bg-(--chakra-colors-bg) flex h-17 items-center justify-between border-b  px-4! sm:px-6 z-10">
+        
+            <h2 className="text-sm font-semibold">
+            </h2>
+
+            <div className="ml-auto flex items-center gap-2">
+
+                {/* <Button size='md' variant={'ghost'} onClick={toggleColorMode}>
+                    <LuMoon />
+                </Button>
+
+                <Button 
+                    size={'md'} 
+                    variant={'ghost'} 
+                    onClick={handleLogout} 
+                    loading={isLoggingOut}
+                >
+                    <LuLogOut className="text-(--chakra-colors-fg)" />
+                </Button> */}
+
+                <Menu.Root positioning={{ placement: "bottom-end" }}>
+                    <Menu.Trigger rounded="full" focusRing="outside" disabled={isLoggingOut}>
+                        <Avatar.Root size="sm" colorPalette={'orange'}>
+                            <Avatar.Fallback name={user?.name ?? 'Unknown'} />
+                            <Avatar.Image src={user?.picture} />
+                        </Avatar.Root>
+                    </Menu.Trigger>
+                    <Portal>
+                        <Menu.Positioner>
+                            <Menu.Content>
+                                <Menu.Item 
+                                    value="settings" 
+                                    onClick={toggleColorMode}
+                                >
+                                    { colorMode === 'dark' ? (
+                                        <>
+                                            <LuSun size={17} className="flex" />
+                                            Light
+                                        </>
+                                    ) : (
+                                        <>
+                                            <LuMoon size={17} />
+                                            Dark
+                                        </>
+                                    ) }
+                                </Menu.Item>
+                                <Menu.Item 
+                                    value="logout" 
+                                    onClick={handleLogout}
+                                >
+                                    <LuLogOut size={17} />
+                                    Logout
+                                </Menu.Item>
+                            </Menu.Content>
+                        </Menu.Positioner>
+                    </Portal>
+                </Menu.Root>
+
+            </div>
+        </header>
+    );
 }

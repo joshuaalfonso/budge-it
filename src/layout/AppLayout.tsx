@@ -2,12 +2,27 @@ import Header from "./Header"
 import Sidebar from "./Sidebar"
 import MobileNav from "./MobileNav"
 import { Outlet } from "react-router-dom"
+import { useDashboard } from "@/queries/dashboard.queries"
+import EmptyWallet from "@/components/wallets/EmptyWallet"
 
 
 const AppLayout = () => {
+
+    const { data, isPending, error } = useDashboard();
+
+    if (isPending) return <>Loading...</>;
+    if (error) return <>Something went wrong</>;
+
+    if (data.wallets.length === 0) return (
+        <div className="h-dvh max-w-4xl mx-auto! ">
+            <EmptyWallet />
+        </div>
+    )
+
+
     return (
         <div className="min-h-screen">
-           <div className="relative flex min-h-screen max-w-4xl mx-auto!">
+           <div className=" flex min-h-screen max-w-4xl mx-auto!">
                 <div className="sticky top-0 h-screen">
                     <Sidebar />
                 </div>
