@@ -1,16 +1,30 @@
 import { LuPlus } from "react-icons/lu";
 
 import WalletCard from "../components/wallets/WalletCard";
-import { wallets } from "@/data/wallet";
+import { useWallet } from "@/queries/wallet.queries";
+import { useWalletDialogStore } from "@/stores/wallet.store";
+import WalletDialog from "@/components/wallets/WalletDialog";
+import { Button } from "@chakra-ui/react";
+import { colorPallette } from "@/constants";
 
 export default function Wallets() {
+
+    const { data: wallets, isPending, error } = useWallet();
+    const setOpen = useWalletDialogStore((state) => state.setOpen);
+
+    if (isPending) return <>Loading...</>;
+    if (error) return <>Something went wrong</>;
+
     const totalBalance = wallets.reduce(
-        (total, wallet) => total + wallet.balance,
+        (total, wallet) => total + +wallet.initialBalance,
         0
     );
 
     return (
         <div>
+
+            <WalletDialog />
+
             {/* Header */}
             <div className="mb-6! flex items-start justify-between gap-4">
                 <div>
@@ -22,15 +36,17 @@ export default function Wallets() {
                     </p>
                 </div>
 
-                <button
-                    type="button"
-                    className="flex h-9 items-center gap-2 rounded-md  px-3! text-sm! font-medium! text-white! bg-orange-400!"
+                <Button 
+                    size="sm" 
+                    colorPalette={colorPallette}
+                    onClick={() => setOpen(true)}
+                    color="fg"
                 >
-                    <LuPlus size={17} />
+                    <LuPlus />
                     <span className="hidden sm:inline">
-                        Add wallet
+                        Add Wallet
                     </span>
-                </button>
+                </Button>
             </div>
 
             {/* Total balance */}

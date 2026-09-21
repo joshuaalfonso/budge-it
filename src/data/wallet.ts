@@ -27,10 +27,10 @@ export const wallets: Wallet[] = [
 ];
 
 export const walletType: {label: string, value: string}[] = [
-  {
-    label: 'Cash',
-    value: 'cash'
-  },
+  // {
+  //   label: 'Cash',
+  //   value: 'cash'
+  // },
   {
     label: 'Debit/Savings',
     value: 'savings'
