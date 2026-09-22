@@ -1,7 +1,7 @@
 import BalanceCard from "@/components/dashboard/BalanceCard";
 // import QuickActions from "@/components/dashboard/QuickActions";
 import RecentTransactions from "@/components/dashboard/RecentTransaction";
-import SummaryCards from "@/components/dashboard/SummaryCards";
+// import SummaryCards from "@/components/dashboard/SummaryCards";
 import { useDashboard } from "@/queries/dashboard.queries";
 
 
@@ -29,9 +29,13 @@ export default function Dashboard() {
 
             {/* Dashboard content */}
             <div className="space-y-4! sm:space-y-6!">
-                <BalanceCard totalBalance={data?.totalBalance ?? 0} />
+                <BalanceCard 
+                    totalBalance={data?.totalBalance ?? 0} 
+                    totalIncome={data?.totalIncome ?? 0} 
+                    totalExpense={data?.totalExpense ?? 0} 
+                />
 
-                <SummaryCards totalIncome={data?.totalIncome ?? 0} totalExpense={data?.totalExpense ?? 0} />
+                {/* <SummaryCards totalIncome={data?.totalIncome ?? 0} totalExpense={data?.totalExpense ?? 0} /> */}
 
                 {/* <QuickActions /> */}
 
