@@ -40,7 +40,7 @@ export default function Wallets() {
                     size="sm" 
                     colorPalette={colorPallette}
                     onClick={() => setOpen(true)}
-                    color="fg"
+                    color="white"
                 >
                     <LuPlus />
                     <span className="hidden sm:inline">
@@ -79,7 +79,7 @@ export default function Wallets() {
                     </p>
                 </div>
 
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-2">
                     {wallets.map((wallet) => (
                         <WalletCard
                             key={wallet.id}
@@ -88,6 +88,7 @@ export default function Wallets() {
                     ))}
                 </div>
             </section>
+            
         </div>
     );
 }

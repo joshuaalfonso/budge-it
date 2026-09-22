@@ -3,10 +3,11 @@ import { walletType } from '@/data/wallet';
 import { useCreateWallet, useUpdateWallet } from '@/queries/wallet.queries';
 import { useWalletDialogStore } from '@/stores/wallet.store';
 import type { WalletType } from '@/types/wallet.types';
-import { Button, CloseButton, createListCollection, Dialog, Field, Input, Portal, Select, Stack } from '@chakra-ui/react';
+import { Badge, Button, CloseButton, createListCollection, Dialog, Field, Input, InputGroup, NumberInput, Portal, Select, Stack } from '@chakra-ui/react';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toaster } from '../ui/toaster';
 import { useEffect } from 'react';
+import { LuPhilippinePeso } from 'react-icons/lu';
 
 const frameworks = createListCollection({
     items: walletType,
@@ -40,7 +41,7 @@ const WalletDialog = () => {
             id: 0,
             name: '', 
             type: 'savings', 
-            initial_balance: '0', 
+            initial_balance: '0.00', 
         }, 
     });
 
@@ -96,7 +97,7 @@ const WalletDialog = () => {
                 id: 0,
                 name: '', 
                 type: 'savings', 
-                initial_balance: '0', 
+                initial_balance: '0.00', 
             });
         }
     }, [selected, reset]);
@@ -125,12 +126,13 @@ const WalletDialog = () => {
                         <Stack gap="8">
 
                             {/* Account Type */}
-                            <Field.Root gap={3} invalid={!!errors.name}>
+                            <Field.Root required gap={3} invalid={!!errors.type}>
                                 <Field.Label 
                                     textTransform="uppercase"
                                     color="fg.muted"
                                 >
                                     Account Type
+                                    <Field.RequiredIndicator />
                                 </Field.Label>
 
                                 <Controller 
@@ -175,18 +177,19 @@ const WalletDialog = () => {
                                         </Select.Root> 
                                     )} 
                                 /> 
-                                {errors.name && ( 
-                                    <Field.ErrorText>{errors.name.message}</Field.ErrorText> 
+                                {errors.type && ( 
+                                    <Field.ErrorText>{errors.type.message}</Field.ErrorText> 
                                 )}
                             </Field.Root>
 
                             {/* Account Name */}
-                            <Field.Root gap={3} invalid={!!errors.type}>
+                            <Field.Root required gap={3} invalid={!!errors.name}>
                                 <Field.Label 
                                     textTransform="uppercase"
                                     color="fg.muted"
                                 >
                                     Account Name
+                                    <Field.RequiredIndicator />
                                 </Field.Label>
                                 <Input 
                                     {...register("name", { required: "Account name is required" })}
@@ -196,8 +199,8 @@ const WalletDialog = () => {
                                     colorPalette={colorPallette} 
                                     autoComplete='off'
                                 />
-                                {errors.type ? (
-                                    <Field.ErrorText>{errors.type.message}</Field.ErrorText>
+                                {errors.name ? (
+                                    <Field.ErrorText>{errors.name.message}</Field.ErrorText>
                                 ) : (
                                     <Field.HelperText>example: Cash, BDO, PNB</Field.HelperText>
                                 )}
@@ -210,8 +213,45 @@ const WalletDialog = () => {
                                     color="fg.muted"
                                 >
                                     Starting Balance
+                                    <Field.RequiredIndicator
+                                        fallback={
+                                            <Badge size="xs" variant="surface">
+                                                Optional
+                                            </Badge>
+                                        }
+                                    />
                                 </Field.Label>
-                                <Input 
+
+                                <Controller
+                                    name="initial_balance"
+                                    control={control}
+                                    // rules={{
+                                    //     required: "Starting balance is required",
+                                    //     pattern: { value: /^\d+(\.\d+)?$/, message: "Must be a valid number" }
+                                    // }}
+                                    render={({ field }) => (
+                                        <NumberInput.Root
+                                            disabled={field.disabled}
+                                            name={field.name}
+                                            value={field.value}
+                                            onValueChange={({ value }) => {
+                                                field.onChange(value)
+                                            }}
+                                            variant="subtle"
+                                            w="full"
+                                        >
+                                            <NumberInput.Control />
+                                            <InputGroup startElement={<LuPhilippinePeso />}>
+                                                <NumberInput.Input onBlur={field.onBlur} placeholder="0.00" />
+                                            </InputGroup>
+                                        </NumberInput.Root>
+                                    )}
+                                />
+                                <Field.HelperText>The amount that will be on the account at the time of creation.</Field.HelperText>
+                                <Field.ErrorText>{errors.initial_balance?.message}</Field.ErrorText>
+
+
+                                {/* <Input 
                                     {...register("initial_balance", { 
                                         required: "Starting balance is required",
                                         pattern: { value: /^\d+(\.\d+)?$/, message: "Must be a valid number" }
@@ -228,7 +268,8 @@ const WalletDialog = () => {
                                     <Field.ErrorText>{errors.initial_balance.message}</Field.ErrorText>
                                 ) : (
                                     <Field.HelperText>The amount that will be on the account at the time of creation.</Field.HelperText>
-                                )}
+                                )} */}
+                                
                             </Field.Root>
 
                         </Stack>
