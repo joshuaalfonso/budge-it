@@ -1,7 +1,7 @@
-import type { Transaction } from "@/data/transactions";
+import type { Transaction } from "@/types/transaction.types";
 import {
-  LuArrowDownLeft,
-  LuArrowUpRight,
+//   LuArrowDownLeft,
+//   LuArrowUpRight,
   LuCar,
   LuCoffee,
   LuShoppingCart,
@@ -39,7 +39,7 @@ export default function TransactionList({
     return (
         <div className="overflow-hidden! rounded-md! border bg-(--chakra-colors-bg-subtle)! p-4! ">
             {transactions.map((transaction, index) => {
-                const Icon = icons[transaction.category as keyof typeof icons] ?? LuWallet;
+                const Icon = icons[transaction.categoryName as keyof typeof icons] ?? LuWallet;
 
                 const isIncome = transaction.type === "income";
 
@@ -61,12 +61,12 @@ export default function TransactionList({
 
                         <div className="min-w-0 flex-1">
                             <p className="truncate text-sm! font-medium!">
-                                {transaction.title}
+                                {transaction.description}
                             </p>
 
                             <p className="mt-0.5! truncate text-xs! text-(--chakra-colors-fg-muted)">
-                                {transaction.category} · {transaction.wallet} ·{" "}
-                                {transaction.date}
+                                {transaction.categoryName} · {transaction.walletName} ·{" "}
+                                {transaction.transactionDate}
                             </p>
                         </div>
 
@@ -77,14 +77,14 @@ export default function TransactionList({
                                 : "text-red-400 "
                             }`}
                             >
-                            {isIncome ? (
+                            {/* {isIncome ? (
                                 <LuArrowUpRight size={15} />
                             ) : (
                                 <LuArrowDownLeft size={15} />
-                            )}
+                            )} */}
 
-                            {isIncome ? "+" : "-"}₱
-                            {transaction.amount.toLocaleString()}
+                            {isIncome ? "+" : "-"} ₱
+                            {Math.abs(+transaction.amount).toLocaleString()}
                         </div>
                     </div>
                 );

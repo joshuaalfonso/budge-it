@@ -73,7 +73,7 @@ export default function WalletCard({ wallet }: WalletCardProps) {
                     {/* ₱{wallet.initialBalance.toLocaleString("en-PH", {
                         minimumFractionDigits: 2,
                     })} */}
-                    ₱ {wallet.initialBalance}
+                    ₱ {Math.abs(+wallet.balance).toLocaleString()}
                 </p>
             </div>
 

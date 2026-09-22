@@ -161,7 +161,7 @@ const WalletDialog = () => {
                                             </Select.Control> 
                                             <Portal> 
                                                 <Select.Positioner> 
-                                                    <Select.Content> 
+                                                    <Select.Content maxH="300px" overflowY="auto"> 
                                                         {frameworks.items.map((framework) => ( 
                                                             <Select.Item 
                                                                 item={framework} 

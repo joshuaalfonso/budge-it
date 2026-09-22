@@ -8,6 +8,7 @@ export interface Wallet {
     name: string,
     type: WalletType,
     initialBalance: string,
+    balance: string,
     createdAt: string
 }
 

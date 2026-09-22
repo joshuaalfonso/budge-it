@@ -5,8 +5,10 @@ export type Transaction = {
   wallet: string;
   date: string;
   amount: number;
-  type: "income" | "expense";
+  type: TransactionType;
 };
+
+ type TransactionType = "income" | "expense";
 
 export const transactions: Transaction[] = [
   {
@@ -64,3 +66,5 @@ export const transactions: Transaction[] = [
     type: "income",
   },
 ];
+
+export const transactionTypes: TransactionType[] = ["income", "expense"];

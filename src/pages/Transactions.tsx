@@ -2,39 +2,60 @@ import { LuSearch, LuSlidersHorizontal } from "react-icons/lu";
 import { useMemo, useState } from "react";
 
 import TransactionList from "../components/transactions/TransactionList";
-import { transactions } from "../data/transactions";
+import { useTransaction } from "@/queries/transaction.queries";
+import TransactionDialog from "@/components/transactions/TransactionDialog";
+import { Button } from "@chakra-ui/react";
+import { colorPallette } from "@/constants";
+import { useTransactionDialogStore } from "@/stores/transaction.store";
+// import { transactions } from "../data/transactions";
 
 type Filter = "all" | "income" | "expense";
 
 export default function Transactions() {
+    
     const [filter, setFilter] = useState<Filter>("all");
     const [search, setSearch] = useState("");
 
+    const setOpen = useTransactionDialogStore((state) => state.setOpen);
+
+    const { data: transactions, isPending, error } = useTransaction();
+
     const filteredTransactions = useMemo(() => {
-        return transactions.filter((transaction) => {
+        return transactions?.filter((transaction) => {
         const matchesFilter =
             filter === "all" || transaction.type === filter;
 
         const searchValue = search.toLowerCase();
 
         const matchesSearch =
-            transaction.title.toLowerCase().includes(searchValue) ||
-            transaction.category.toLowerCase().includes(searchValue) ||
-            transaction.wallet.toLowerCase().includes(searchValue);
+            transaction.description.toLowerCase().includes(searchValue) ||
+            transaction.categoryName.toLowerCase().includes(searchValue) ||
+            transaction.walletName.toLowerCase().includes(searchValue);
 
         return matchesFilter && matchesSearch;
         });
-    }, [filter, search]);
+    }, [transactions, filter, search]);
+
+    if (isPending) return <>Loading...</>;
+    if (error) return <>Something went wrong</>;
 
     return (
         <div>
-            <div className="mb-6!">
-                <h1 className=" text-2xl! font-semibold! tracking-tight! sm:text-2xl!">
-                    Transactions
-                </h1>
-                <p className="mt-1! text-sm! text-(--chakra-colors-fg-muted)">
-                    Keep track of where your money goes
-                </p>
+
+            <TransactionDialog />
+
+            <div className="flex items-center justify-between mb-6!">
+                <div>
+                    <h1 className=" text-2xl! font-semibold! tracking-tight! sm:text-2xl!">
+                        Transactions
+                    </h1>
+                    <p className="mt-1! text-sm! text-(--chakra-colors-fg-muted)">
+                        Keep track of where your money goes
+                    </p>
+                </div>
+                <Button size="sm" colorPalette={colorPallette} onClick={() => setOpen(true)} >
+                    Add Transaction
+                </Button>
             </div>
 
             <div className="space-y-4!">
@@ -93,11 +114,9 @@ export default function Transactions() {
                     })}
                 </div>
 
-                {/* Results */}
-                <TransactionList transactions={filteredTransactions} />
+                <TransactionList transactions={filteredTransactions ?? []} />
             </div>
 
-            {/* Mobile add button */}
             <button
                 type="button"
                 className="fixed bottom-24 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-zinc-900 text-xl text-white shadow-lg transition active:scale-95 dark:bg-white dark:text-zinc-900 lg:hidden"

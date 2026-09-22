@@ -1,6 +1,12 @@
 import { LuArrowDownRight, LuArrowUpRight } from "react-icons/lu";
 
-export default function SummaryCards() {
+
+interface Props {
+    totalIncome: number;
+    totalExpense: number;
+}
+
+export default function SummaryCards({ totalIncome, totalExpense }: Props) {
     return (
         <div className="grid grid-cols-2 gap-3 sm:gap-4">
             {/* Income */}
@@ -16,7 +22,7 @@ export default function SummaryCards() {
                 </div>
 
                 <p className="mt-3! text-xl! font-semibold!">
-                    ₱30,000
+                    ₱ {totalIncome.toLocaleString()}
                 </p>
             </div>
 
@@ -33,7 +39,7 @@ export default function SummaryCards() {
                 </div>
 
                 <p className="mt-3! text-xl! font-semibold!">
-                    ₱21,580
+                    ₱ {totalExpense.toLocaleString()}
                 </p>
             </div>
         </div>

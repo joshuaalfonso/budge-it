@@ -1,6 +1,11 @@
 import { LuArrowUpRight } from "react-icons/lu";
 
-export default function BalanceCard() {
+
+interface Props {
+    totalBalance: number;
+}
+
+export default function BalanceCard({ totalBalance }: Props) {
     return (
         <section>
             <p className="text-sm! text-(--chakra-colors-fg-muted)">
@@ -9,7 +14,7 @@ export default function BalanceCard() {
 
             <div className="mt-2!">
                 <h1 className="text-3xl! font-semibold! tracking-tight! sm:text-4xl!">
-                    ₱47,120.00
+                    ₱ {totalBalance.toLocaleString()}
                 </h1>
             </div>
 

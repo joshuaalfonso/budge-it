@@ -16,7 +16,7 @@ export default function Wallets() {
     if (error) return <>Something went wrong</>;
 
     const totalBalance = wallets.reduce(
-        (total, wallet) => total + +wallet.initialBalance,
+        (total, wallet) => total + +wallet.balance,
         0
     );
 
