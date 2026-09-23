@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import TransactionControls from "@/components/transactions/TransactionControls";
 import TransactionHeader from "@/components/transactions/TransactionHeader";
+import { useCategory } from "@/queries/category.queries";
 
 export default function Transactions() {
 
@@ -20,6 +21,7 @@ export default function Transactions() {
     const { filters, setFilter, setCursor } = useTransactionFilters();
 
     const { data: transactions, isPending, isFetching, error } = useTransaction(filters);
+    const { data: categories } = useCategory();
 
     useEffect(() => {
         setFilter({ 'search': debouncedSearch });
@@ -41,9 +43,12 @@ export default function Transactions() {
 
                 <TransactionControls
                     search={search}
+                    categories={categories ?? []}
                     setSearch={setSearch}
                     currentType={filters.type}
+                    currentCategory={filters.category_id}
                     onTypeChange={(value) => setFilter({ type: value })}
+                    onCategoryChange={(value) => setFilter({ category_id: value?.toString() })}
                     onDateChange={(details) => {
                         const [startDate, endDate] = details.value;
                         if (startDate && endDate) {
