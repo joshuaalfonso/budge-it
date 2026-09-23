@@ -1,5 +1,5 @@
 import { LuSearch, LuSlidersHorizontal } from "react-icons/lu";
-import { useMemo, useState } from "react";
+// import { useMemo, useState } from "react";
 
 import TransactionList from "../components/transactions/TransactionList";
 import { useTransaction } from "@/queries/transaction.queries";
@@ -7,34 +7,17 @@ import TransactionDialog from "@/components/transactions/TransactionDialog";
 import { Button } from "@chakra-ui/react";
 import { colorPallette } from "@/constants";
 import { useTransactionDialogStore } from "@/stores/transaction.store";
-// import { transactions } from "../data/transactions";
+import { useTransactionFilters } from "@/hooks/useTransactionFilter";
 
-type Filter = "all" | "income" | "expense";
+
 
 export default function Transactions() {
     
-    const [filter, setFilter] = useState<Filter>("all");
-    const [search, setSearch] = useState("");
-
     const setOpen = useTransactionDialogStore((state) => state.setOpen);
 
-    const { data: transactions, isPending, error } = useTransaction();
+    const { filters, setFilter, setCursor } = useTransactionFilters();
 
-    const filteredTransactions = useMemo(() => {
-        return transactions?.filter((transaction) => {
-        const matchesFilter =
-            filter === "all" || transaction.type === filter;
-
-        const searchValue = search.toLowerCase();
-
-        const matchesSearch =
-            transaction.description.toLowerCase().includes(searchValue) ||
-            transaction.categoryName.toLowerCase().includes(searchValue) ||
-            transaction.walletName.toLowerCase().includes(searchValue);
-
-        return matchesFilter && matchesSearch;
-        });
-    }, [transactions, filter, search]);
+    const { data: transactions, isPending, error } = useTransaction(filters);
 
     if (isPending) return <>Loading...</>;
     if (error) return <>Something went wrong</>;
@@ -69,8 +52,8 @@ export default function Transactions() {
 
                         <input
                             type="text"
-                            value={search}
-                            onChange={(event) => setSearch(event.target.value)}
+                            // value={search}
+                            // onChange={(event) => setSearch(event.target.value)}
                             placeholder="Search transactions..."
                             className="h-11 w-full rounded-xl bg-(--chakra-colors-bg-subtle)!  pl-10! pr-4! text-sm! outline-none transition "
                             />
@@ -91,30 +74,78 @@ export default function Transactions() {
                 {/* Filter */}
                 <div className="flex gap-2 overflow-x-auto pb-1!">
                     {[
-                        { label: "All", value: "all" },
+                        { label: "All", value: undefined },
                         { label: "Income", value: "income" },
                         { label: "Expenses", value: "expense" },
                     ].map((item) => {
-                        const active = filter === item.value;
+                        const active = filters.type === item.value;
 
                         return (
-                        <button
-                            key={item.value}
-                            type="button"
-                            onClick={() => setFilter(item.value as Filter)}
-                            className={`shrink-0 rounded-md px-4! py-2! text-sm! font-medium! transition ${
-                            active
-                                ? "bg-orange-400/10! text-orange-400! "
-                                : "bg-(--chakra-colors-bg-subtle)!"
-                            }`}
-                        >
-                            {item.label}
-                        </button>
+                            <button
+                                key={item.value}
+                                type="button"
+                                onClick={() => setFilter('type', item.value)}
+                                className={`shrink-0 rounded-md px-4! py-2! text-sm! font-medium! transition ${
+                                active
+                                    ? "bg-orange-400/10! text-orange-400! "
+                                    : "bg-(--chakra-colors-bg-subtle)!"
+                                }`}
+                            >
+                                {item.label}
+                            </button>
                         );
                     })}
                 </div>
 
-                <TransactionList transactions={filteredTransactions ?? []} />
+                <TransactionList transactions={transactions.data ?? []} />
+
+                <div className="flex items-center justify-end gap-4">
+                    <Button
+                        variant="subtle"
+                        size="sm"
+                        disabled={
+                            !transactions.pagination.hasPreviousPage ||
+                            !transactions.pagination.previousCursor
+                        }
+                        onClick={() => {
+
+                            const cursor =
+                                transactions.pagination.previousCursor;
+
+                            setCursor(
+                                cursor.cursor_date, 
+                                cursor.cursor_id,
+                                'previous'
+                            )
+                        }}
+                    >
+                        Previous
+                    </Button>
+
+                    <Button
+                        variant="subtle"
+                        size="sm"
+                        disabled={
+                            !transactions.pagination.hasNextPage ||
+                            !transactions.pagination.nextCursor
+                        }
+                        onClick={() => {
+
+                            const cursor =
+                                transactions.pagination.nextCursor;
+
+                            setCursor(
+                                cursor.cursor_date, 
+                                cursor.cursor_id,
+                                'next'
+                            )
+                        }}
+                    >
+                        Next
+                    </Button>
+                </div>
+
+
             </div>
 
             <button
