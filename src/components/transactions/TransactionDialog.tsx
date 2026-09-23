@@ -1,12 +1,12 @@
 import { colorPallette } from '@/constants';
-import { walletType } from '@/data/wallet';
-import { useCreateWallet, useUpdateWallet, useWallet } from '@/queries/wallet.queries';
-import type { WalletType } from '@/types/wallet.types';
-import { Badge, Button, CloseButton, createListCollection, Dialog, Field, HStack, Input, InputGroup, NumberInput, Portal, RadioCard, Select, Stack } from '@chakra-ui/react';
+// import { walletType } from '@/data/wallet';
+import {  useWallet } from '@/queries/wallet.queries';
+// import type { WalletType } from '@/types/wallet.types';
+import {  Button, CloseButton, createListCollection, DatePicker, Dialog, Field, HStack, Input, InputGroup, NumberInput, parseDate, Portal, RadioCard, Select, Stack } from '@chakra-ui/react';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toaster } from '../ui/toaster';
 import { useEffect } from 'react';
-import { LuPhilippinePeso } from 'react-icons/lu';
+import { LuCalendar, LuPhilippinePeso } from 'react-icons/lu';
 import type { TransactionType } from '@/types/transaction.types';
 import { useTransactionDialogStore } from '@/stores/transaction.store';
 import { useCreateTransaction, useUpdateTransaction } from '@/queries/transaction.queries';
@@ -64,7 +64,7 @@ const WalletDialog = () => {
             description: '',
             category_id: 0,
             wallet_id: 0,
-            transaction_date: new Date().toISOString().split('T')[0],
+            transaction_date: '',
         }, 
     });
 
@@ -249,6 +249,67 @@ const WalletDialog = () => {
                                                 ))}
                                             </HStack>
                                         </RadioCard.Root>
+                                    )}
+                                />
+                                <Field.ErrorText>{errors.type?.message}</Field.ErrorText>
+
+
+                            </Field.Root>
+
+
+                            <Field.Root gap={3} invalid={!!errors.amount} required>
+                                <Field.Label 
+                                    textTransform="uppercase"
+                                    color="fg.muted"
+                                >
+                                    Date
+                                    <Field.RequiredIndicator />
+                                </Field.Label>
+
+                                <Controller
+                                    control={control}
+                                    name="transaction_date"
+                                    render={({ field }) => (
+                                        <Field.Root invalid={!!errors.transaction_date}>
+                                        <DatePicker.Root
+                                            value={field.value ? [parseDate(field.value)] : []}
+                                                onValueChange={(e) =>
+                                                field.onChange(e.value[0]?.toString() ?? "")
+                                            }
+                                            invalid={!!errors.transaction_date}
+                                            variant="subtle"
+                                            
+                                        >
+                                            {/* <DatePicker.Label>Date of birth</DatePicker.Label> */}
+                                            <DatePicker.Control>
+                                            <DatePicker.Input placeholder="Select date" borderRadius="xl" />
+                                            <DatePicker.IndicatorGroup>
+                                                <DatePicker.Trigger>
+                                                <LuCalendar />
+                                                </DatePicker.Trigger>
+                                            </DatePicker.IndicatorGroup>
+                                            </DatePicker.Control>
+                                            <Portal>
+                                            <DatePicker.Positioner>
+                                                <DatePicker.Content>
+                                                <DatePicker.View view="day">
+                                                    <DatePicker.Header />
+                                                    <DatePicker.DayTable />
+                                                </DatePicker.View>
+                                                <DatePicker.View view="month">
+                                                    <DatePicker.Header />
+                                                    <DatePicker.MonthTable />
+                                                </DatePicker.View>
+                                                <DatePicker.View view="year">
+                                                    <DatePicker.Header />
+                                                    <DatePicker.YearTable />
+                                                </DatePicker.View>
+                                                </DatePicker.Content>
+                                            </DatePicker.Positioner>
+                                            </Portal>
+                                        </DatePicker.Root>
+                                        <Field.ErrorText>{errors.transaction_date?.message}</Field.ErrorText>
+                                        </Field.Root>
                                     )}
                                 />
                                 <Field.ErrorText>{errors.type?.message}</Field.ErrorText>

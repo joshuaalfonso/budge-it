@@ -2,10 +2,18 @@
 import SpendByCategoryChart from "@/components/reports/SpendByCategoryChart";
 import SpendByWalletChart from "@/components/reports/SpendByWalletChart";
 import SpendTrendChart from "@/components/reports/SpendTrendChart";
+import { useMonthlyReport } from "@/queries/analytics.queries";
 import { LuArrowDownRight, LuArrowUpRight, LuCalendarDays } from "react-icons/lu";
 
 
 export default function Reports() {
+
+
+    const { data:monthlyReport, isPending, error } = useMonthlyReport();
+
+
+    if (isPending) return <p>Loading...</p>;
+    if (error) return <p>Something went wrong</p>;
 
     return (
         <div >
@@ -39,7 +47,7 @@ export default function Reports() {
                         </p>
 
                         <p className="mt-2! text-xl! font-semibold!">
-                            ₱38,500
+                            ₱ {Math.abs(monthlyReport.summary.totalIncome).toLocaleString()}
                         </p>
 
                         <div className="mt-2! flex items-center gap-1 text-xs! text-emerald-600 dark:text-emerald-400">
@@ -54,7 +62,7 @@ export default function Reports() {
                         </p>
 
                         <p className="mt-2! text-xl! font-semibold!">
-                            ₱20,380
+                            ₱ {Math.abs(monthlyReport.summary.totalExpense).toLocaleString()}
                         </p>
 
                         <div className="mt-2! flex items-center gap-1 text-xs! text-red-600 dark:text-red-400">
@@ -69,7 +77,7 @@ export default function Reports() {
                         </p>
 
                         <p className="mt-2! text-xl! font-semibold!">
-                            ₱18,120
+                           ₱ {Math.abs(monthlyReport.summary.savings).toLocaleString()}
                         </p>
 
                         <p className="mt-2! flex items-center gap-1 text-xs! text-(--chakra-colors-fg-muted)">
@@ -83,7 +91,7 @@ export default function Reports() {
                         </p>
 
                         <p className="mt-2! text-xl! font-semibold!">
-                            42
+                            {Math.abs(monthlyReport.summary.totalTransactions).toLocaleString()}
                         </p>
 
                         <p className="mt-2! flex items-center gap-1 text-xs! text-(--chakra-colors-fg-muted)">
@@ -110,7 +118,7 @@ export default function Reports() {
                             Your chart goes here
                         </p> */}
 
-                        <SpendTrendChart />
+                        <SpendTrendChart dailySpending={monthlyReport.dailySpending ?? []} />
 
                     </div>
 
