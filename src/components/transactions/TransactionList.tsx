@@ -1,10 +1,13 @@
+import { useDeleteTransaction } from "@/queries/transaction.queries";
 import { useTransactionDialogStore } from "@/stores/transaction.store";
 import type { Transaction } from "@/types/transaction.types";
+import { Button, Menu, Portal } from "@chakra-ui/react";
 import {
 //   LuArrowDownLeft,
 //   LuArrowUpRight,
   LuCar,
   LuCoffee,
+  LuEllipsis,
   LuShoppingCart,
   LuWallet,
 } from "react-icons/lu";
@@ -28,15 +31,17 @@ export default function TransactionList({
 
     const setSelected = useTransactionDialogStore((state) => state.setSelected);
 
+    const { mutate: deleteTransaction, isPending } = useDeleteTransaction();
+
     if (transactions.length === 0) {
         return (
-        <div className="rounded-2xl border bg-white p-8 text-center dark:border-zinc-800 dark:bg-zinc-950">
-            <p className="text-sm font-medium">No transactions found</p>
+            <div className="rounded-2xl border p-8! text-center bg-(--chakra-colors-bg-subtle)">
+                <p className="text-sm font-medium">No transactions found</p>
 
-            <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-                Try changing your search or filter.
-            </p>
-        </div>
+                <p className="mt-1! text-sm! text-(--chakra-colors-fg-muted)">
+                    Try changing your search or filter.
+                </p>
+            </div>
         );
     }
 
@@ -50,7 +55,7 @@ export default function TransactionList({
                 return (
                     <div
                         key={transaction.id}
-                        className={`flex items-center gap-3 p-4! sm:px-5! ${
+                        className={`flex items-center gap-3 p-4! sm:px-5! group ${
                         index !== transactions.length - 1
                             ? "border-b! "
                             : ""
@@ -81,16 +86,30 @@ export default function TransactionList({
                                 : "text-red-400 "
                             }`}
                             >
-                            {/* {isIncome ? (
-                                <LuArrowUpRight size={15} />
-                            ) : (
-                                <LuArrowDownLeft size={15} />
-                            )} */}
-
                             {isIncome ? "+" : "-"} ₱
                                 {Math.abs(+transaction.amount).toLocaleString()}
                         </div>
-                        <button onClick={() => setSelected(transaction)}>edit</button>
+                        <Menu.Root>
+                            <Menu.Trigger asChild>
+                                <Button variant="ghost" size="xs" loading={isPending} >
+                                    <LuEllipsis />
+                                </Button>
+                            </Menu.Trigger>
+                            <Portal>
+                                <Menu.Positioner>
+                                <Menu.Content>
+                                    <Menu.Item value="edit" onClick={() => setSelected(transaction)}>
+                                        Edit
+                                    </Menu.Item>
+                                    <Menu.Item value="delete" onClick={() => {
+                                        deleteTransaction(transaction.id);
+                                    }}>
+                                        Delete
+                                    </Menu.Item>
+                                </Menu.Content>
+                                </Menu.Positioner>
+                            </Portal>
+                        </Menu.Root>
                     </div>
                 );
             })}

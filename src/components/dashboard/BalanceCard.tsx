@@ -1,4 +1,4 @@
-import { LuArrowUpRight } from "react-icons/lu";
+// import { LuArrowUpRight } from "react-icons/lu";
 
 
 interface Props {

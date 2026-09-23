@@ -33,6 +33,7 @@ export interface TransactionFilters {
   limit?: string;
   cursor_date?: string;
   cursor_id?: number;
+  search?: string;
   direction?: 'next' | 'previous'
 }
 
