@@ -9,17 +9,18 @@ export const useTransactionFilters = () => {
     const filters: TransactionFilters = Object.fromEntries(searchParams.entries());
 
     const setFilter = (
-        key: keyof TransactionFilters,
-        value: string | undefined
+        filters: Partial<Record<keyof TransactionFilters, string | undefined>>
     ) => {
         setSearchParams((prev) => {
             const newParams = new URLSearchParams(prev);
 
-            if (value) {
-                newParams.set(key, value);
-            } else {
-                newParams.delete(key);
-            }
+            Object.entries(filters).forEach(([key, value]) => {
+                if (value) {
+                    newParams.set(key, value);
+                } else {
+                    newParams.delete(key);
+                }
+            });
 
             newParams.delete('cursor_date');
             newParams.delete('cursor_id');
@@ -27,7 +28,9 @@ export const useTransactionFilters = () => {
 
             return newParams;
         });
+
     };
+
 
     const setCursor = (cursor_date: string, cursor_id: number, direction: CursorDirection) => {
         setSearchParams((prev) => {

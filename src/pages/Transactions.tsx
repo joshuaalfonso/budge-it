@@ -1,10 +1,10 @@
-import { LuSearch, LuSlidersHorizontal } from "react-icons/lu";
+import { LuCalendar, LuSearch, LuSlidersHorizontal } from "react-icons/lu";
 // import { useMemo, useState } from "react";
 
 import TransactionList from "../components/transactions/TransactionList";
 import { useTransaction } from "@/queries/transaction.queries";
 import TransactionDialog from "@/components/transactions/TransactionDialog";
-import { Button } from "@chakra-ui/react";
+import { Button, DatePicker, Portal } from "@chakra-ui/react";
 import { colorPallette } from "@/constants";
 import { useTransactionDialogStore } from "@/stores/transaction.store";
 import { useTransactionFilters } from "@/hooks/useTransactionFilter";
@@ -41,7 +41,7 @@ export default function Transactions() {
                 </Button>
             </div>
 
-            <div className="space-y-4!">
+            <div className="space-y-5!">
                 {/* Search */}
                 <div className="flex gap-2">
                     <div className="relative flex-1">
@@ -71,6 +71,61 @@ export default function Transactions() {
                     </button>
                 </div>
 
+                <div>
+                    <DatePicker.Root 
+                        selectionMode="range" 
+                        maxWidth="20rem" 
+                        // variant="subtle"
+                        onValueChange={(details) => {
+                            const [startDate, endDate] = details.value;
+
+                            if (startDate && endDate) {
+                                setFilter({
+                                    'start_date':  startDate?.toString(),
+                                    'end_date': endDate?.toString()
+                                })
+                            }
+                        }}
+                    >
+                        {/* <DatePicker.Label>Select range</DatePicker.Label> */}
+                        <DatePicker.Control>
+                            <DatePicker.Input index={0} borderRadius="xl" border="none" bg="bg.subtle" />
+                            <DatePicker.Input index={1} borderRadius="xl" border="none" bg="bg.subtle" />
+                            <DatePicker.IndicatorGroup>
+                             <DatePicker.Context>
+                                {(context) =>
+                                context.value.length ? (
+                                    <DatePicker.ClearTrigger />
+                                ) : (
+                                    <DatePicker.Trigger>
+                                    <LuCalendar />
+                                    </DatePicker.Trigger>
+                                )
+                                }
+                            </DatePicker.Context>
+                            </DatePicker.IndicatorGroup>
+                        </DatePicker.Control>
+                        <Portal>
+                            <DatePicker.Positioner>
+                            <DatePicker.Content>
+                                <DatePicker.View view="day">
+                                    <DatePicker.Header />
+                                    <DatePicker.DayTable />
+                                </DatePicker.View>
+                                <DatePicker.View view="month">
+                                    <DatePicker.Header />
+                                    <DatePicker.MonthTable />
+                                </DatePicker.View>
+                                <DatePicker.View view="year">
+                                    <DatePicker.Header />
+                                    <DatePicker.YearTable />
+                                </DatePicker.View>
+                            </DatePicker.Content>
+                            </DatePicker.Positioner>
+                        </Portal>
+                    </DatePicker.Root>
+                </div>
+
                 {/* Filter */}
                 <div className="flex gap-2 overflow-x-auto pb-1!">
                     {[
@@ -84,8 +139,8 @@ export default function Transactions() {
                             <button
                                 key={item.value}
                                 type="button"
-                                onClick={() => setFilter('type', item.value)}
-                                className={`shrink-0 rounded-md px-4! py-2! text-sm! font-medium! transition ${
+                                onClick={() => setFilter({'type': item.value})}
+                                className={`shrink-0 rounded-md px-4! py-2! text-sm! font-medium! transition text-(--chakra-colors-fg-muted)! ${
                                 active
                                     ? "bg-orange-400/10! text-orange-400! "
                                     : "bg-(--chakra-colors-bg-subtle)!"

@@ -44,7 +44,7 @@ export const transactionApi =  {
     },
 
     update: async (newItem: TransactionRequest) => {
-        const response = await api.put<{success: boolean, message: string, data: Transaction}>(`${TABLE_NAME}/${newItem.id}`, newItem);
+        const response = await api.patch<{success: boolean, message: string, data: Transaction}>(`${TABLE_NAME}/${newItem.id}`, newItem);
         return response.data;
     },
 

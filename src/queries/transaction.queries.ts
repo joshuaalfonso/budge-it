@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export const useTransaction = (filters: TransactionFilters) => {
     return useQuery({
-        queryKey: ['transactions', filters],
+        queryKey: ['transaction', filters],
         queryFn: () => transactionApi.getAll(filters),
         retry: false,
         staleTime: 5 * 60 * 1000,

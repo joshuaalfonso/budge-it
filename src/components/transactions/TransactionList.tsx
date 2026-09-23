@@ -1,3 +1,4 @@
+import { useTransactionDialogStore } from "@/stores/transaction.store";
 import type { Transaction } from "@/types/transaction.types";
 import {
 //   LuArrowDownLeft,
@@ -24,6 +25,9 @@ type TransactionListProps = {
 export default function TransactionList({
   transactions,
 }: TransactionListProps) {
+
+    const setSelected = useTransactionDialogStore((state) => state.setSelected);
+
     if (transactions.length === 0) {
         return (
         <div className="rounded-2xl border bg-white p-8 text-center dark:border-zinc-800 dark:bg-zinc-950">
@@ -84,8 +88,9 @@ export default function TransactionList({
                             )} */}
 
                             {isIncome ? "+" : "-"} ₱
-                            {Math.abs(+transaction.amount).toLocaleString()}
+                                {Math.abs(+transaction.amount).toLocaleString()}
                         </div>
+                        <button onClick={() => setSelected(transaction)}>edit</button>
                     </div>
                 );
             })}
