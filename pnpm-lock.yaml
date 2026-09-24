@@ -32,6 +32,9 @@ importers:
       dotenv:
         specifier: ^18.0.1
         version: 18.0.1
+      emoji-picker-react:
+        specifier: ^4.22.2
+        version: 4.22.2(react@19.3.0)
       framer-motion:
         specifier: ^13.4.0
         version: 13.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -1340,6 +1343,12 @@ packages:
   electron-to-chromium@1.5.431:
     resolution: {integrity: sha512-AAVihz2YwJeOdAynX8MUtqpvjY0gaiARp/7+r4kwqgzqXMrfG1qDN7vwT80uxAoOQRPcZH8t73EI+CA/1OJN8A==}
 
+  emoji-picker-react@4.22.2:
+    resolution: {integrity: sha512-xd0YRbuqkdfVYLAMEiDhM/xx98OQZ4FWu3KQJjVBkQO956EpMTJY0wW4jtF1VGqYBYK4E1KDXyDa2e8M4PQFkw==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16.8'
+
   enhanced-resolve@5.25.1:
     resolution: {integrity: sha512-nGXts5znJzmWPu+mIE9izCOzdg63oJca2mDzGWWTth7sr4aCToKcoyFVBQwN75Ij5Pf6p510EwkTqViTRzDV+w==}
     engines: {node: '>=10.13.0'}
@@ -1975,6 +1984,9 @@ packages:
   shebang-regex@3.0.0:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
+
+  shipstyles@1.0.0:
+    resolution: {integrity: sha512-1AcihfXo/mSxqeOdoKqq/5TNv+vSH0dBYPFq88PUX5FBkK5pRmY5TP9SuMNio85PQ+euUI67+KpSVk1cUVDCgA==}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -3709,6 +3721,11 @@ snapshots:
 
   electron-to-chromium@1.5.431: {}
 
+  emoji-picker-react@4.22.2(react@19.3.0):
+    dependencies:
+      react: 19.3.0
+      shipstyles: 1.0.0
+
   enhanced-resolve@5.25.1:
     dependencies:
       graceful-fs: 4.2.11
@@ -4311,6 +4328,8 @@ snapshots:
       shebang-regex: 3.0.0
 
   shebang-regex@3.0.0: {}
+
+  shipstyles@1.0.0: {}
 
   source-map-js@1.2.1: {}
 

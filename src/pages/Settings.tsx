@@ -1,3 +1,4 @@
+import Categories from "@/components/settings/Categories"
 import Preferences from "@/components/settings/Preferences"
 
 
@@ -21,57 +22,7 @@ const Settings = () => {
             <Preferences />
 
             {/* Categories */}
-            <section className="space-y-3!">
-
-                <div className="flex items-center justify-between">
-                    <div>
-                        <h2 className="text-sm! font-semibold! text-(--chakra-colors-fg-muted)">
-                            Categories
-                        </h2>
-                        {/* <p className="text-sm! text-(--chakra-colors-fg-subtle)">
-                            Organize your income and expenses.
-                        </p> */}
-                    </div>
-
-                    <button className="rounded-lg bg-blue-500! px-3! py-2! text-sm! font-medium! text-white hover:bg-blue-600!">
-                        + Add category
-                    </button>
-                </div>
-
-                <div className="overflow-hidden rounded-xl  bg-(--chakra-colors-bg-subtle)">
-                    {[
-                        { name: "Food & Dining", type: "Expense", color: "bg-orange-500" },
-                        { name: "Transportation", type: "Expense", color: "bg-blue-500" },
-                        { name: "Bills & Utilities", type: "Expense", color: "bg-purple-500" },
-                        { name: "Shopping", type: "Expense", color: "bg-pink-500" },
-                        { name: "Salary", type: "Income", color: "bg-green-500" },
-                    ].map((category) => (
-                        <div
-                            key={category.name}
-                            className="flex items-center justify-between border-b! p-4! last:border-0!"
-                        >
-                            <div className="flex items-center gap-3">
-                                <span
-                                    className={`h-2.5 w-2.5 rounded-full ${category.color}`}
-                                />
-
-                                <div>
-                                    <p className="text-sm! font-medium text-(--chakra-colors-fg)">
-                                        {category.name}
-                                    </p>
-                                    <p className="text-xs! text-(--chakra-colors-fg-muted)">
-                                        {category.type}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <button className="text-sm! font-medium! text-(--chakra-colors-fg-muted)! ">
-                                Edit
-                            </button>
-                        </div>
-                    ))}
-                </div>
-            </section>
+            <Categories />
 
             {/* Data Management */}
             <section className="space-y-3!">

@@ -12,3 +12,15 @@
 * {
   @apply font-jakarta
 }
+
+
+.EmojiPickerReact {
+  /* --epr-emoji-size: 100px; */
+  --epr-bg-color: var(--chakra-colors-bg-subtle) !important;
+  --epr-search-input-bg-color: var(--chakra-colors-bg-subtle) !important;
+  --epr-search-input-bg-color-active: var(--chakra-colors-bg-subtle) !important;
+  --epr-category-label-bg-color: var(--chakra-colors-bg-emphasized) !important;
+  /* --epr-category-label-text-color: var(--chakra-colors-fg-emphasized) !important; */
+  --epr-picker-border-color: var(--chakra-colors-border) !important;
+  /* --epr-hover-bg-color: red !important; */
+}
