@@ -1,11 +1,9 @@
-import { CURRENCIES } from "@/data/currency"
-import { useCurrencyStore } from "@/stores/currency.store";
+import Preferences from "@/components/settings/Preferences"
+
+
+
 
 const Settings = () => {
-
-
-    const currency = useCurrencyStore((state) => state.currency);
-    const setCurrency = useCurrencyStore((state) => state.setCurrency);
 
     return (
         <div className="space-y-8!">
@@ -20,78 +18,7 @@ const Settings = () => {
             </div>
 
             {/* Preferences */}
-            <section className="space-y-3!">
-                <div>
-                    <h2 className="text-sm! font-semibold! text-(--chakra-colors-fg-muted)">
-                        Preferences
-                    </h2>
-                    {/* <p className="text-sm! text-(--chakra-colors-fg-subtle)">
-                        Customize how your budget tracker works.
-                    </p> */}
-                </div>
-
-                <div className="divide-y! rounded-xl bg-(--chakra-colors-bg-subtle)">
-                    {/* Currency */}
-                    <div className="flex items-center justify-between gap-4! p-4!">
-                        <div>
-                            <p className="text-sm! font-medium! text-(--chakra-colors-fg-muted)">
-                                Currency
-                            </p>
-                        </div>
-
-                        <select 
-                            value={currency}
-                            onChange={(e) =>
-                                setCurrency(e.target.value as keyof typeof CURRENCIES)
-                            }
-                            className="rounded-lg border! bg-(--chakra-colors-bg-muted) px-3! py-2! text-sm! text-(--chakra-colors-emphasized) outline-none focus:border!"
-                        >
-                            {Object.values(CURRENCIES).map((currency) => (
-                                <option key={currency.code} value={currency.code}>
-                                    {currency.code} — {currency.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Theme */}
-                    <div className="flex items-center justify-between gap-4! p-4!">
-                        <div>
-                            <p className="text-sm! font-medium! text-(--chakra-colors-fg-muted)">
-                                Theme
-                            </p>
-                            {/* <p className="mt-0.5 text-sm text-(--chakra-colors-fg-muted)">
-                                Choose your preferred appearance.
-                            </p> */}
-                        </div>
-
-                        <select className="rounded-lg border border-gray-200 bg-(--chakra-colors-bg-subtle) px-3 py-2 text-sm text-gray-700 outline-none focus:border-gray-400">
-                            <option>System</option>
-                            <option>Light</option>
-                            <option>Dark</option>
-                        </select>
-                    </div>
-
-                    {/* Notifications */}
-                    <div className="flex items-center justify-between gap-4 p-4!">
-                        <div>
-                            <p className="text-sm! font-medium! text-(--chakra-colors-fg-muted)">
-                                Budget reminders
-                            </p>
-                            {/* <p className="mt-0.5 text-sm text-gray-500">
-                                Get reminded about your monthly budget.
-                            </p> */}
-                        </div>
-
-                        <button
-                            type="button"
-                            className="relative h-6 w-11 rounded-full bg-gray-900 transition"
-                        >
-                            <span className="absolute right-1 top-1 h-4 w-4 rounded-full bg-(--chakra-colors-bg-muted) shadow-sm" />
-                        </button>
-                    </div>
-                </div>
-            </section>
+            <Preferences />
 
             {/* Categories */}
             <section className="space-y-3!">
