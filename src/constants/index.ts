@@ -5,4 +5,4 @@
 
 
 
-export const colorPallette = 'orange';
+export const colorPallette = 'blue';

@@ -2,6 +2,7 @@
 //   LuArrowDownLeft,
 //   LuArrowUpRight,
 // } from "react-icons/lu";
+import { useCurrencyStore } from "@/stores/currency.store";
 import { type Transaction } from "@/types/transaction.types";
 
 
@@ -10,6 +11,11 @@ interface Props {
 }
 
 export default function RecentTransactions({ transactions }: Props) {
+
+    const formatCurrency = useCurrencyStore(
+        (state) => state.formatCurrency
+    );
+
     return (
         <section>
 
@@ -65,8 +71,9 @@ export default function RecentTransactions({ transactions }: Props) {
                                     <LuArrowDownLeft size={15} />
                                 )} */}
 
-                                {isIncome ? "+" : "-"}₱
-                                {Math.abs(+transaction.amount).toLocaleString()}
+                                {isIncome ? "+" : "-"}
+                                {/* {Math.abs(+transaction.amount).toLocaleString()} */}
+                                {formatCurrency(+transaction.amount)}
                             </div>
                         </div>
                     );

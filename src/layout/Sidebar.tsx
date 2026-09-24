@@ -2,11 +2,11 @@ import {
     LuChartPie,
     LuHouse,
     LuReceiptText,
-    LuSettings,
     LuWallet
 } from "react-icons/lu";
 import { NavLink } from "react-router-dom";
-import wallet from '../assets/wallet.png'
+import wallet from '../assets/wallet-logo.png'
+import { colorPallette } from "@/constants";
 
 const navItems = [
     {
@@ -36,15 +36,15 @@ export default function Sidebar() {
         <aside className="hidden sticky top-0 lg:flex lg:w-64 lg:flex-col border-r h-full">
 
             <div className="flex h-16 items-center gap-2 px-6">
-                <div className="w-6 h-6">
+                <div className="w-7 h-7">
                     <img src={wallet} alt="logo" />
                 </div>
                 <h1 className="text-lg! font-semibold!">
-                    Budget Tracker
+                    Budge It
                 </h1>
             </div>
 
-            <nav className="flex-1 space-y-1.5! px-3 py-4">
+            <nav className="flex-1 space-y-1.5! px-3 py-4 mt-3!">
                 {navItems.map((item) => {
                 const Icon = item.icon;
 
@@ -56,8 +56,8 @@ export default function Sidebar() {
                         className={({ isActive }) =>
                             `flex items-center gap-3 rounded-md! px-3! py-2! text-sm! font-medium! transition ${
                             isActive
-                                ? "bg-orange-400/10 text-orange-400!"
-                                : " hover:bg-orange-400/10"
+                                ? `bg-${colorPallette}-400/10 text-${colorPallette}-400!`
+                                : ` hover:bg-${colorPallette}-400/10`
                             }`
                         }
                     >
@@ -68,21 +68,21 @@ export default function Sidebar() {
                 })}
             </nav>
 
-            <div className="border-t p-3!">
+            {/* <div className="border-t p-3!">
                 <NavLink
                     to="/settings"
                     className={({ isActive }) =>
                         `flex items-center gap-3 rounded-md! px-3! py-2! text-sm! font-medium! ${
                         isActive
-                            ? "bg-orange-400/10 text-orange-400!"
-                            : "hover:bg-orange-400/10"
+                            ? `bg-${colorPallette}-400/10 text-${colorPallette}-400!`
+                            : `hover:bg-${colorPallette}-400/10`
                         }`
                     }
                 >
                 <LuSettings size={18} />
                     Settings
                 </NavLink>
-            </div>
+            </div> */}
 
         </aside>
     );

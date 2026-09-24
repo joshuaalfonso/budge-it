@@ -1,8 +1,9 @@
 
 import SpendByCategoryChart from "@/components/reports/SpendByCategoryChart";
-import SpendByWalletChart from "@/components/reports/SpendByWalletChart";
+// import SpendByWalletChart from "@/components/reports/SpendByWalletChart";
 import SpendTrendChart from "@/components/reports/SpendTrendChart";
 import { useMonthlyReport } from "@/queries/analytics.queries";
+import { useCurrencyStore } from "@/stores/currency.store";
 import { LuArrowDownRight, LuArrowUpRight, LuCalendarDays } from "react-icons/lu";
 
 
@@ -10,6 +11,10 @@ export default function Reports() {
 
 
     const { data:monthlyReport, isPending, error } = useMonthlyReport();
+
+     const formatCurrency = useCurrencyStore(
+            (state) => state.formatCurrency
+    );
 
 
     if (isPending) return <p>Loading...</p>;
@@ -47,7 +52,8 @@ export default function Reports() {
                         </p>
 
                         <p className="mt-2! text-xl! font-semibold!">
-                            ₱ {Math.abs(monthlyReport.summary.totalIncome).toLocaleString()}
+                            {/* ₱ {Math.abs(monthlyReport.summary.totalIncome).toLocaleString()} */}
+                            {formatCurrency(monthlyReport.summary.totalIncome)}
                         </p>
 
                         <div className="mt-2! flex items-center gap-1 text-xs! text-emerald-600 dark:text-emerald-400">
@@ -62,7 +68,8 @@ export default function Reports() {
                         </p>
 
                         <p className="mt-2! text-xl! font-semibold!">
-                            ₱ {Math.abs(monthlyReport.summary.totalExpense).toLocaleString()}
+                            {/* ₱ {Math.abs(monthlyReport.summary.totalExpense).toLocaleString()} */}
+                            {formatCurrency(monthlyReport.summary.totalExpense)}
                         </p>
 
                         <div className="mt-2! flex items-center gap-1 text-xs! text-red-600 dark:text-red-400">
@@ -77,7 +84,8 @@ export default function Reports() {
                         </p>
 
                         <p className="mt-2! text-xl! font-semibold!">
-                           ₱ {Math.abs(monthlyReport.summary.savings).toLocaleString()}
+                           {/* ₱ {Math.abs(monthlyReport.summary.savings).toLocaleString()} */}
+                           {formatCurrency(monthlyReport.summary.savings)}
                         </p>
 
                         <p className="mt-2! flex items-center gap-1 text-xs! text-(--chakra-colors-fg-muted)">
@@ -125,7 +133,7 @@ export default function Reports() {
                 </section>
 
                 {/* Breakdown */}
-                <div className="grid gap-4 lg:grid-cols-2">
+                <div className="grid gap-4 lg:grid-cols-1">
                     {/* Categories */}
                     <section className="rounded-md border p-4! bg-(--chakra-colors-bg-subtle) sm:p-5!">
                         <div className="mb-5!">
@@ -144,7 +152,7 @@ export default function Reports() {
                     </section>
 
                     {/* Wallets */}
-                    <section className="rounded-md border p-4! bg-(--chakra-colors-bg-subtle) sm:p-5!">
+                    {/* <section className="rounded-md border p-4! bg-(--chakra-colors-bg-subtle) sm:p-5!">
                         <div className="mb-5!">
                             <h2 className="text-base! font-semibold!">
                                 Spending by wallet
@@ -158,7 +166,7 @@ export default function Reports() {
                         <div className="flex h-64 items-center justify-center rounded-xl bg-(--chakra-colors-bg-subtle)">
                             <SpendByWalletChart />
                         </div>
-                    </section>
+                    </section> */}
                 </div>
 
             </div>

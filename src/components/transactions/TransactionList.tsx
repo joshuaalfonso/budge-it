@@ -1,4 +1,5 @@
 import { useDeleteTransaction } from "@/queries/transaction.queries";
+import { useCurrencyStore } from "@/stores/currency.store";
 import { useTransactionDialogStore } from "@/stores/transaction.store";
 import type { Transaction } from "@/types/transaction.types";
 import { Button, Menu, Portal } from "@chakra-ui/react";
@@ -28,6 +29,10 @@ type TransactionListProps = {
 export default function TransactionList({
   transactions,
 }: TransactionListProps) {
+
+    const formatCurrency = useCurrencyStore(
+        (state) => state.formatCurrency
+    );
 
     const setSelected = useTransactionDialogStore((state) => state.setSelected);
 
@@ -86,8 +91,9 @@ export default function TransactionList({
                                 : "text-red-400 "
                             }`}
                             >
-                            {isIncome ? "+" : "-"} ₱
-                                {Math.abs(+transaction.amount).toLocaleString()}
+                            {isIncome ? "+" : "-"} 
+                                {/* {Math.abs(+transaction.amount).toLocaleString()} */}
+                            {formatCurrency(+transaction.amount)}
                         </div>
                         <Menu.Root>
                             <Menu.Trigger asChild>

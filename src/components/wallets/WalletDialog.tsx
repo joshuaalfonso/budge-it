@@ -278,7 +278,7 @@ const WalletDialog = () => {
                     <Dialog.Footer className='flex flex-col md:flex-row'>
                         <Dialog.ActionTrigger asChild>
                             <Button 
-                                variant="outline" 
+                                variant="subtle" 
                                 type="button" 
                                 className="w-full md:w-auto"
                             >
@@ -286,7 +286,7 @@ const WalletDialog = () => {
                             
                         </Dialog.ActionTrigger>
                         <Button 
-                            colorPalette="orange" 
+                            colorPalette={colorPallette} 
                             type="submit" 
                             loading={isWorking}
                             disabled={!isDirty}

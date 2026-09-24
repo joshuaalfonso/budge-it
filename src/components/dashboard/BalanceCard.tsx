@@ -1,5 +1,7 @@
 // import { LuArrowUpRight } from "react-icons/lu";
 
+import { useCurrencyStore } from "@/stores/currency.store";
+
 
 interface Props {
     totalBalance: number;
@@ -8,6 +10,11 @@ interface Props {
 }
 
 export default function BalanceCard({ totalBalance, totalIncome, totalExpense }: Props) {
+
+    const formatCurrency = useCurrencyStore(
+        (state) => state.formatCurrency
+    );
+
     return (
         // <section>
         //     <p className="text-sm! text-(--chakra-colors-fg-muted)">
@@ -37,7 +44,8 @@ export default function BalanceCard({ totalBalance, totalIncome, totalExpense }:
 
                     <div className="mt-2! flex items-center justify-between">
                         <h3 className="text-3xl! font-bold!">
-                           ₱ {totalBalance.toLocaleString()}
+                           {/* ₱ {totalBalance.toLocaleString()} */}
+                           {formatCurrency(totalBalance)}
                         </h3>
                     </div>
                 </div>
@@ -53,7 +61,8 @@ export default function BalanceCard({ totalBalance, totalIncome, totalExpense }:
                         </p>
 
                         <p className="mt-1! text-xl! font-bold!">
-                            ₱ {totalIncome.toLocaleString()}
+                            {/* ₱ {totalIncome.toLocaleString()} */}
+                            {formatCurrency(totalIncome)}
                         </p>
                     </div>
 
@@ -67,7 +76,8 @@ export default function BalanceCard({ totalBalance, totalIncome, totalExpense }:
                         </p>
 
                         <p className="mt-1! text-xl! font-bold!">
-                            ₱ {totalExpense.toLocaleString()}
+                            {/* ₱ {totalExpense.toLocaleString()} */}
+                            {formatCurrency(totalExpense)}
                         </p>
 
                     </div>

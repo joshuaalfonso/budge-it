@@ -51,6 +51,7 @@ export default function Transactions() {
                     onCategoryChange={(value) => setFilter({ category_id: value?.toString() })}
                     onDateChange={(details) => {
                         const [startDate, endDate] = details.value;
+                        // console.log(details.value)
                         if (startDate && endDate) {
                             setFilter({
                                 start_date: startDate?.toString(),

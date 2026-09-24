@@ -1,4 +1,5 @@
 import { useDeleteWallet } from "@/queries/wallet.queries";
+import { useCurrencyStore } from "@/stores/currency.store";
 import { useWalletDialogStore } from "@/stores/wallet.store";
 import type { Wallet } from "@/types/wallet.types";
 import { Button, Menu, Portal } from "@chakra-ui/react";
@@ -15,6 +16,10 @@ export default function WalletCard({ wallet }: WalletCardProps) {
     const setSelected = useWalletDialogStore((state) => state.setSelected);
 
     const { mutate: deleteWallet, isPending: isDeleting } = useDeleteWallet();
+
+    const formatCurrency = useCurrencyStore(
+        (state) => state.formatCurrency
+    );
 
     return (
         <div className="rounded-md  bg-(--chakra-colors-bg-subtle) p-4!">
@@ -73,7 +78,8 @@ export default function WalletCard({ wallet }: WalletCardProps) {
                     {/* ₱{wallet.initialBalance.toLocaleString("en-PH", {
                         minimumFractionDigits: 2,
                     })} */}
-                    ₱ {Math.abs(+wallet.balance).toLocaleString()}
+                    {/* ₱ {Math.abs(+wallet.balance).toLocaleString()} */}
+                    {formatCurrency(+wallet.balance)}
                 </p>
             </div>
 

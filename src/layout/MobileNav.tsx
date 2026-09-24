@@ -1,3 +1,4 @@
+import { colorPallette } from "@/constants";
 import {
     LuChartPie,
     LuHouse,
@@ -53,7 +54,7 @@ export default function MobileNav() {
               className={({ isActive }) =>
                 `flex flex-col items-center gap-1 py-1! text-xs! text-(--chakra-colors-fg-muted)! rounded-4xl ${
                   isActive
-                    ? "bg-orange-400/10 text-orange-400!"
+                    ? `bg-${colorPallette}-400/10 text-${colorPallette}-400!`
                     : ""
                 }`
               }

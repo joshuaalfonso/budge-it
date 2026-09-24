@@ -2,16 +2,17 @@ import { colorPallette } from '@/constants';
 // import { walletType } from '@/data/wallet';
 import {  useWallet } from '@/queries/wallet.queries';
 // import type { WalletType } from '@/types/wallet.types';
-import {  Button, CloseButton, createListCollection, DatePicker, Dialog, Field, HStack, Input, InputGroup, NumberInput, parseDate, Portal, RadioCard, Select, Stack } from '@chakra-ui/react';
+import {  Button, CloseButton, createListCollection, DatePicker, Dialog, Field, HStack, Input, NumberInput, parseDate, Portal, RadioCard, Select, Stack } from '@chakra-ui/react';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toaster } from '../ui/toaster';
 import { useEffect } from 'react';
-import { LuCalendar, LuPhilippinePeso } from 'react-icons/lu';
+import { LuCalendar } from 'react-icons/lu';
 import type { TransactionType } from '@/types/transaction.types';
 import { useTransactionDialogStore } from '@/stores/transaction.store';
 import { useCreateTransaction, useUpdateTransaction } from '@/queries/transaction.queries';
 import { transactionTypes } from '@/data/transactions';
 import { useCategory } from '@/queries/category.queries';
+import { useCurrencyStore } from '@/stores/currency.store';
 
 
 interface TransactionFormValues { 
@@ -26,6 +27,10 @@ interface TransactionFormValues {
 
 
 const WalletDialog = () => {
+
+    const currency = useCurrencyStore(
+        (state) => state.currency
+    );
 
     const open = useTransactionDialogStore((state) => state.open);
     const setOpen = useTransactionDialogStore((state) => state.setOpen);
@@ -157,63 +162,6 @@ const WalletDialog = () => {
                     <Dialog.Body>
                         <Stack gap="8">
 
-                            {/* Account Type */}
-                            <Field.Root required gap={3} invalid={!!errors.type}>
-                                <Field.Label 
-                                    textTransform="uppercase"
-                                    color="fg.muted"
-                                >
-                                    Wallet
-                                    <Field.RequiredIndicator />
-                                </Field.Label>
-
-                                <Controller 
-                                    name="wallet_id" 
-                                    control={control} 
-                                    rules={{ required: 'Wallet is required' }} 
-                                    render={({ field }) => ( 
-                                        <Select.Root 
-                                            collection={wallets} 
-                                            variant="subtle" 
-                                            size="md" 
-                                            width="full" 
-                                            value={field.value ? [String(field.value)] : []} 
-                                            onValueChange={(details) => { 
-                                                field.onChange(Number(details.value[0]));
-                                            }} 
-                                        > 
-                                            <Select.HiddenSelect /> 
-                                            <Select.Control> 
-                                                <Select.Trigger borderRadius="xl"> 
-                                                    <Select.ValueText placeholder="Select" /> 
-                                                </Select.Trigger> 
-                                                <Select.IndicatorGroup> 
-                                                    <Select.Indicator /> 
-                                                </Select.IndicatorGroup> 
-                                            </Select.Control> 
-                                            <Portal> 
-                                                <Select.Positioner> 
-                                                    <Select.Content> 
-                                                        {wallets.items.map((wallet) => ( 
-                                                            <Select.Item 
-                                                                item={wallet} 
-                                                                key={wallet.id} 
-                                                            > 
-                                                                {wallet.name} 
-                                                                <Select.ItemIndicator /> 
-                                                            </Select.Item> 
-                                                        ))} 
-                                                    </Select.Content> 
-                                                </Select.Positioner> 
-                                            </Portal> 
-                                        </Select.Root> 
-                                    )} 
-                                /> 
-                                {errors.type && ( 
-                                    <Field.ErrorText>{errors.type.message}</Field.ErrorText> 
-                                )}
-                            </Field.Root>
-
                             <Field.Root gap={3} invalid={!!errors.amount} required>
                                 <Field.Label 
                                     textTransform="uppercase"
@@ -256,6 +204,187 @@ const WalletDialog = () => {
 
                             </Field.Root>
 
+                            <Field.Root gap={3} invalid={!!errors.amount} required>
+                                <Field.Label 
+                                    textTransform="uppercase"
+                                    color="fg.muted"
+                                >
+                                    Amount
+                                    <Field.RequiredIndicator />
+                                </Field.Label>
+
+                                <Controller
+                                    name="amount"
+                                    control={control}
+                                    rules={{
+                                        required: "Starting balance is required",
+                                        pattern: { value: /^\d+(\.\d+)?$/, message: "Must be a valid number" }
+                                    }}
+                                    render={({ field }) => (
+                                        <NumberInput.Root
+                                            disabled={field.disabled}
+                                            name={field.name}
+                                            value={field.value}
+                                            onValueChange={({ value }) => {
+                                                field.onChange(value)
+                                            }}
+                                            variant="subtle"
+                                            w="full"
+                                            colorPalette={colorPallette}
+                                            formatOptions={{
+                                                style: "currency",
+                                                currency: currency,
+                                                currencyDisplay: "symbol",
+                                                currencySign: "standard",
+                                            }}
+                                        >
+                                            <NumberInput.Control />
+                                            {/* <InputGroup startElement={<LuPhilippinePeso />}> */}
+                                            {/* <InputGroup startElement={currency}> */}
+                                                <NumberInput.Input onBlur={field.onBlur} placeholder="0.00" borderRadius="xl" />
+                                            {/* </InputGroup> */}
+                                        </NumberInput.Root>
+                                    )}
+                                />
+                                <Field.ErrorText>{errors.amount?.message}</Field.ErrorText>
+
+                            </Field.Root>
+
+
+                            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 '>
+                                {/* Account Type */}
+                                <Field.Root required gap={3} invalid={!!errors.type}>
+                                    <Field.Label 
+                                        textTransform="uppercase"
+                                        color="fg.muted"
+                                    >
+                                        Wallet
+                                        <Field.RequiredIndicator />
+                                    </Field.Label>
+
+                                    <Controller 
+                                        name="wallet_id" 
+                                        control={control} 
+                                        rules={{ required: 'Wallet is required' }} 
+                                        render={({ field }) => ( 
+                                            <Select.Root 
+                                                collection={wallets} 
+                                                variant="subtle" 
+                                                size="md" 
+                                                width="full" 
+                                                value={field.value ? [String(field.value)] : []} 
+                                                onValueChange={(details) => { 
+                                                    field.onChange(Number(details.value[0]));
+                                                }} 
+                                                // colorPalette={colorPallette}
+                                            > 
+                                                <Select.HiddenSelect /> 
+                                                <Select.Control > 
+                                                    <Select.Trigger borderRadius="xl"> 
+                                                        <Select.ValueText placeholder="Select" /> 
+                                                    </Select.Trigger> 
+                                                    <Select.IndicatorGroup> 
+                                                        <Select.Indicator /> 
+                                                    </Select.IndicatorGroup> 
+                                                </Select.Control> 
+                                                <Portal> 
+                                                    <Select.Positioner> 
+                                                        <Select.Content> 
+                                                            {wallets.items.map((wallet) => ( 
+                                                                <Select.Item 
+                                                                    item={wallet} 
+                                                                    key={wallet.id} 
+                                                                > 
+                                                                    {wallet.name} 
+                                                                    <Select.ItemIndicator color={`${colorPallette}.500`} /> 
+                                                                </Select.Item> 
+                                                            ))} 
+                                                        </Select.Content> 
+                                                    </Select.Positioner> 
+                                                </Portal> 
+                                            </Select.Root> 
+                                        )} 
+                                    /> 
+                                    {errors.type && ( 
+                                        <Field.ErrorText>{errors.type.message}</Field.ErrorText> 
+                                    )}
+                                </Field.Root>
+
+                                <Field.Root required gap={3} invalid={!!errors.type}>
+                                    <Field.Label 
+                                        textTransform="uppercase"
+                                        color="fg.muted"
+                                    >
+                                        Category
+                                        <Field.RequiredIndicator />
+                                    </Field.Label>
+
+                                    <Controller 
+                                        name="category_id" 
+                                        control={control} 
+                                        rules={{ required: 'Category is required' }} 
+                                        render={({ field }) => ( 
+                                            <Select.Root 
+                                                collection={categories} 
+                                                variant="subtle" 
+                                                size="md" 
+                                                width="full" 
+                                                value={field.value ? [String(field.value)] : []} 
+                                                onValueChange={(details) => { 
+                                                    field.onChange(Number(details.value[0]));
+                                                }} 
+                                            > 
+                                                <Select.HiddenSelect /> 
+                                                <Select.Control> 
+                                                    <Select.Trigger borderRadius="xl"> 
+                                                        <Select.ValueText placeholder="Select" /> 
+                                                    </Select.Trigger> 
+                                                    <Select.IndicatorGroup> 
+                                                        <Select.Indicator /> 
+                                                    </Select.IndicatorGroup> 
+                                                </Select.Control> 
+                                                <Portal> 
+                                                    <Select.Positioner> 
+                                                        <Select.Content> 
+                                                            {categories.items.map((category) => ( 
+                                                                <Select.Item 
+                                                                    item={category} 
+                                                                    key={category.id} 
+                                                                > 
+                                                                    {category.name} 
+                                                                    <Select.ItemIndicator color={`${colorPallette}.500`} /> 
+                                                                </Select.Item> 
+                                                            ))} 
+                                                        </Select.Content> 
+                                                    </Select.Positioner> 
+                                                </Portal> 
+                                            </Select.Root> 
+                                        )} 
+                                    /> 
+                                    {errors.type && ( 
+                                        <Field.ErrorText>{errors.type.message}</Field.ErrorText> 
+                                    )}
+                                </Field.Root>
+                            </div>
+
+                            <Field.Root required gap={3} invalid={!!errors.description}>
+                                <Field.Label 
+                                    textTransform="uppercase"
+                                    color="fg.muted"
+                                >
+                                    Description
+                                    <Field.RequiredIndicator />
+                                </Field.Label>
+                                <Input 
+                                    {...register("description", { required: "Description is required" })}
+                                    placeholder="" 
+                                    variant="subtle" 
+                                    borderRadius="xl" 
+                                    colorPalette={colorPallette} 
+                                    autoComplete='off'
+                                />
+                                <Field.ErrorText>{errors.description?.message}</Field.ErrorText>
+                            </Field.Root>
 
                             <Field.Root gap={3} invalid={!!errors.amount} required>
                                 <Field.Label 
@@ -270,7 +399,7 @@ const WalletDialog = () => {
                                     control={control}
                                     name="transaction_date"
                                     render={({ field }) => (
-                                        <Field.Root invalid={!!errors.transaction_date}>
+                                        <Field.Root invalid={!!errors.transaction_date} >
                                         <DatePicker.Root
                                             value={field.value ? [parseDate(field.value)] : []}
                                                 onValueChange={(e) =>
@@ -278,6 +407,7 @@ const WalletDialog = () => {
                                             }
                                             invalid={!!errors.transaction_date}
                                             variant="subtle"
+                                            colorPalette={colorPallette}
                                             
                                         >
                                             {/* <DatePicker.Label>Date of birth</DatePicker.Label> */}
@@ -317,120 +447,6 @@ const WalletDialog = () => {
 
                             </Field.Root>
 
-                            <Field.Root gap={3} invalid={!!errors.amount} required>
-                                <Field.Label 
-                                    textTransform="uppercase"
-                                    color="fg.muted"
-                                >
-                                    Amount
-                                    <Field.RequiredIndicator />
-                                </Field.Label>
-
-                                <Controller
-                                    name="amount"
-                                    control={control}
-                                    rules={{
-                                        required: "Starting balance is required",
-                                        pattern: { value: /^\d+(\.\d+)?$/, message: "Must be a valid number" }
-                                    }}
-                                    render={({ field }) => (
-                                        <NumberInput.Root
-                                            disabled={field.disabled}
-                                            name={field.name}
-                                            value={field.value}
-                                            onValueChange={({ value }) => {
-                                                field.onChange(value)
-                                            }}
-                                            variant="subtle"
-                                            w="full"
-                                            colorPalette={colorPallette}
-                                        >
-                                            <NumberInput.Control />
-                                            <InputGroup startElement={<LuPhilippinePeso />}>
-                                                <NumberInput.Input onBlur={field.onBlur} placeholder="0.00" borderRadius="xl" />
-                                            </InputGroup>
-                                        </NumberInput.Root>
-                                    )}
-                                />
-                                <Field.ErrorText>{errors.amount?.message}</Field.ErrorText>
-
-                            </Field.Root>
-
-                             <Field.Root required gap={3} invalid={!!errors.type}>
-                                <Field.Label 
-                                    textTransform="uppercase"
-                                    color="fg.muted"
-                                >
-                                    Category
-                                    <Field.RequiredIndicator />
-                                </Field.Label>
-
-                                <Controller 
-                                    name="category_id" 
-                                    control={control} 
-                                    rules={{ required: 'Category is required' }} 
-                                    render={({ field }) => ( 
-                                        <Select.Root 
-                                            collection={categories} 
-                                            variant="subtle" 
-                                            size="md" 
-                                            width="full" 
-                                            value={field.value ? [String(field.value)] : []} 
-                                            onValueChange={(details) => { 
-                                                field.onChange(Number(details.value[0]));
-                                            }} 
-                                        > 
-                                            <Select.HiddenSelect /> 
-                                            <Select.Control> 
-                                                <Select.Trigger borderRadius="xl"> 
-                                                    <Select.ValueText placeholder="Select" /> 
-                                                </Select.Trigger> 
-                                                <Select.IndicatorGroup> 
-                                                    <Select.Indicator /> 
-                                                </Select.IndicatorGroup> 
-                                            </Select.Control> 
-                                            <Portal> 
-                                                <Select.Positioner> 
-                                                    <Select.Content> 
-                                                        {categories.items.map((category) => ( 
-                                                            <Select.Item 
-                                                                item={category} 
-                                                                key={category.id} 
-                                                            > 
-                                                                {category.name} 
-                                                                <Select.ItemIndicator /> 
-                                                            </Select.Item> 
-                                                        ))} 
-                                                    </Select.Content> 
-                                                </Select.Positioner> 
-                                            </Portal> 
-                                        </Select.Root> 
-                                    )} 
-                                /> 
-                                {errors.type && ( 
-                                    <Field.ErrorText>{errors.type.message}</Field.ErrorText> 
-                                )}
-                            </Field.Root>
-
-                            <Field.Root required gap={3} invalid={!!errors.description}>
-                                <Field.Label 
-                                    textTransform="uppercase"
-                                    color="fg.muted"
-                                >
-                                    Description
-                                    <Field.RequiredIndicator />
-                                </Field.Label>
-                                <Input 
-                                    {...register("description", { required: "Description is required" })}
-                                    placeholder="" 
-                                    variant="subtle" 
-                                    borderRadius="xl" 
-                                    colorPalette={colorPallette} 
-                                    autoComplete='off'
-                                />
-                                <Field.ErrorText>{errors.description?.message}</Field.ErrorText>
-                            </Field.Root>
-
                         </Stack>
                     </Dialog.Body>
 
@@ -445,7 +461,7 @@ const WalletDialog = () => {
                             
                         </Dialog.ActionTrigger>
                         <Button 
-                            colorPalette="orange" 
+                            colorPalette={colorPallette}
                             type="submit" 
                             loading={isWorking}
                             disabled={!isDirty}

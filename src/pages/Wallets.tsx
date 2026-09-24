@@ -6,11 +6,16 @@ import { useWalletDialogStore } from "@/stores/wallet.store";
 import WalletDialog from "@/components/wallets/WalletDialog";
 import { Button } from "@chakra-ui/react";
 import { colorPallette } from "@/constants";
+import { useCurrencyStore } from "@/stores/currency.store";
 
 export default function Wallets() {
 
     const { data: wallets, isPending, error } = useWallet();
     const setOpen = useWalletDialogStore((state) => state.setOpen);
+
+    const formatCurrency = useCurrencyStore(
+        (state) => state.formatCurrency
+    );
 
     if (isPending) return <>Loading...</>;
     if (error) return <>Something went wrong</>;
@@ -26,7 +31,7 @@ export default function Wallets() {
             <WalletDialog />
 
             {/* Header */}
-            <div className="mb-6! flex items-start justify-between gap-4">
+            <div className="mb-6! flex items-center justify-between gap-4">
                 <div>
                     <h1 className=" text-2xl! font-semibold! tracking-tight!">
                         Wallets
@@ -56,14 +61,15 @@ export default function Wallets() {
                 </p>
 
                 <p className="mt-2! text-3xl! font-semibold! tracking-tight! sm:text-4xl!">
-                    ₱
+                    {/* ₱
                     {totalBalance.toLocaleString("en-PH", {
                         minimumFractionDigits: 2,
-                    })}
+                    })} */}
+                    {formatCurrency(totalBalance)}
                 </p>
 
                 <p className="mt-2! text-sm! text-(--chakra-colors-fg-muted)">
-                    Across {wallets.length} wallets
+                    Across {wallets.length} {`wallet${wallets.length > 1 ? 's' : ''}`}
                 </p>
             </section>
 
@@ -71,11 +77,11 @@ export default function Wallets() {
             <section>
                 <div className="mb-3! flex items-center justify-between">
                     <h2 className="text-base! font-semibold!">
-                        Your wallets
+                        Your wallet
                     </h2>
 
                     <p className="text-sm! text-(--chakra-colors-fg-muted)">
-                        {wallets.length} accounts
+                        {wallets.length} {`account${wallets.length > 1 ? 's' : ''}`}
                     </p>
                 </div>
 

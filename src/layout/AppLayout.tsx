@@ -30,7 +30,7 @@ const AppLayout = () => {
                 <div className="flex min-w-0 flex-1 flex-col">
                     <Header />
 
-                    <main className="mb-25! flex-1 px-4! pb-20 lg:pb-0">
+                    <main className="mb-25! mt-3! flex-1 px-6! lg:pb-0">
                         <Outlet />
                     </main>
                 </div>

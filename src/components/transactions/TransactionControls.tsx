@@ -10,7 +10,7 @@ interface TransactionControlsProps {
     currentCategory?: string;
     onTypeChange: (value: string | undefined) => void;
     onCategoryChange: (value: string | undefined) => void;
-    onDateChange: (details: { value: any[] }) => void;
+    onDateChange: (details: { value: {day: number, era: string, month: number, year: number}[] }) => void;
     categories: Category[]; 
 }
 
@@ -74,18 +74,31 @@ export default function TransactionControls({
                                                 onValueChange={onDateChange}
                                                 variant={'subtle'}
                                                 size="sm"
+                                                colorPalette={colorPallette} 
+                                                css={{
+                                                    // Targets the day cell trigger when selected or in range
+                                                    "& [data-part='table-cell-trigger'][data-selected]": {
+                                                    bg: "blue.400 !important",
+                                                    color: "white !important",
+                                                    },
+                                                    // Target highlighted range cells (between start and end dates)
+                                                    "& [data-part='table-cell-trigger'][data-in-range]": {
+                                                    bg: "blue.100 !important",
+                                                    color: "blue.800 !important",
+                                                    },
+                                                }}
                                             >
                                                 <DatePicker.Control>
                                                     <DatePicker.Input index={0} borderRadius="xl" border="none"  />
                                                     <DatePicker.Input index={1} borderRadius="xl" border="none"  />
                                                     <DatePicker.IndicatorGroup>
-                                                    <DatePicker.Context>
+                                                    <DatePicker.Context >
                                                         {(context) =>
                                                             context.value.length ? (
                                                                 <DatePicker.ClearTrigger />
                                                             ) : (
                                                                 <DatePicker.Trigger>
-                                                                <LuCalendar />
+                                                                    <LuCalendar />
                                                                 </DatePicker.Trigger>
                                                             )
                                                         }
@@ -144,7 +157,7 @@ export default function TransactionControls({
                                         {/* category filter */}
                                         <div>
                                             <h1 className="text-xs! font-medium! mb-2! text-(--chakra-colors-fg-muted) uppercase">Category</h1>
-                                            <div className="flex gap-2 overflow-x-auto pb-1!">
+                                            <div className="flex gap-2 flex-wrap pb-1!">
                                                 {categories.map((item) => {
                                                     const active = currentCategory == String(item.id); 
 
