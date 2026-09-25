@@ -52,7 +52,7 @@ export default function TransactionControls({
 
                 <Popover.Root positioning={{ placement: "bottom-end"}} autoFocus={false}>
                     <Popover.Trigger asChild>
-                        <Button size="lg" bg="bg.subtle" color="white" borderRadius="xl">
+                        <Button size="lg" bg="bg.subtle" color="fg" borderRadius="xl">
                             <LuSlidersHorizontal  />
                             <span className="ml-2! hidden text-sm! font-medium! sm:inline">Filters</span>
                         </Button>

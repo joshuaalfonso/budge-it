@@ -147,7 +147,8 @@ const WalletDialog = () => {
                 if (!e.open) reset();
             }}
             placement="center"
-            size={{ mdDown: "sm", md: "md" }}
+            size={{ mdDown: "full", md: "md" }}
+            scrollBehavior="inside"
         >
             <Dialog.Trigger asChild />
             <Portal>
@@ -251,7 +252,7 @@ const WalletDialog = () => {
                             </Field.Root>
 
 
-                            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 '>
+                            <div className='grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-2 '>
                                 {/* Account Type */}
                                 <Field.Root required gap={3} invalid={!!errors.type}>
                                     <Field.Label 

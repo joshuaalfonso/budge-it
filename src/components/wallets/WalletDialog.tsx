@@ -110,7 +110,7 @@ const WalletDialog = () => {
                 if (!e.open) reset();
             }}
             placement="center"
-            size={{ mdDown: "sm", md: "md" }}
+            size={{ mdDown: "full", md: "md" }}
         >
             <Dialog.Trigger asChild />
             <Portal>

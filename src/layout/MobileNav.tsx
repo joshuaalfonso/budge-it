@@ -33,6 +33,16 @@ const navItems = [
 
 
 export default function MobileNav() {
+
+  const colors = {
+    red: "bg-red-400/10 text-red-400!",
+    blue: "bg-blue-400/10 text-blue-400!",
+    green: "bg-green-400/10 text-green-400!",
+    orange: "bg-orange-400/10 text-orange-400!",
+  };
+
+  const color = colors[colorPallette];
+
   return (
     <nav className="fixed bottom-2 left-4 right-4 z-50 rounded-4xl px-1! py-1! backdrop-blur-md border! border-(--chakra-colors-border-muted)! lg:hidden">
       <div className="relative grid grid-cols-4 px-2 py-2">
@@ -54,7 +64,7 @@ export default function MobileNav() {
               className={({ isActive }) =>
                 `flex flex-col items-center gap-1 py-1! text-xs! text-(--chakra-colors-fg-muted)! rounded-4xl ${
                   isActive
-                    ? `bg-${colorPallette}-400/10 text-${colorPallette}-400!`
+                    ? color
                     : ""
                 }`
               }

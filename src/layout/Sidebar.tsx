@@ -32,6 +32,16 @@ const navItems = [
 ];
 
 export default function Sidebar() {
+
+    const colors = {
+        red: "bg-red-400/10 text-red-400!",
+        blue: "bg-blue-400/10 text-blue-400!",
+        green: "bg-green-400/10 text-green-400!",
+        orange: "bg-orange-400/10 text-orange-400!",
+    };
+
+    const color = colors[colorPallette];
+
     return (
         <aside className="hidden sticky top-0 lg:flex lg:w-64 lg:flex-col border-r h-full">
 
@@ -56,7 +66,7 @@ export default function Sidebar() {
                         className={({ isActive }) =>
                             `flex items-center gap-3 rounded-md! px-3! py-2! text-sm! font-medium! transition ${
                             isActive
-                                ? `bg-${colorPallette}-400/10 text-${colorPallette}-400!`
+                                ? color
                                 : ` hover:bg-${colorPallette}-400/10`
                             }`
                         }
