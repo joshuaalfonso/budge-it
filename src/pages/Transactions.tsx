@@ -23,9 +23,14 @@ export default function Transactions() {
     const { data: transactions, isPending, isFetching, error } = useTransaction(filters);
     const { data: categories } = useCategory();
 
+    const filteredCategories =
+    !filters.type
+        ? categories
+        : categories?.filter(category => category.type === filters.type);
+
     useEffect(() => {
         setFilter({ 'search': debouncedSearch });
-    }, [debouncedSearch]);
+    }, [ debouncedSearch]);
 
     if (isPending) return <>Loading...</>;
     if (error) return <>Something went wrong</>;
@@ -43,7 +48,7 @@ export default function Transactions() {
 
                 <TransactionControls
                     search={search}
-                    categories={categories ?? []}
+                    categories={filteredCategories ?? []}
                     setSearch={setSearch}
                     currentType={filters.type}
                     currentCategory={filters.category_id}

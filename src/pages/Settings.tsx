@@ -1,10 +1,21 @@
-import Categories from "@/components/settings/Categories"
+import CategoryList from "@/components/settings/CategoryList"
+import CategoryDialog from "@/components/settings/CategoryDialog";
 import Preferences from "@/components/settings/Preferences"
+import { colorPallette } from "@/constants"
+import { useCategoryDialogStore } from "@/stores/category.store";
+import { Button } from "@chakra-ui/react";
+import { LuPlus } from "react-icons/lu";
+import { useCategory } from "@/queries/category.queries";
 
 
 
 
 const Settings = () => {
+
+    const { data: categories, isPending: isLoading, error } = useCategory();
+
+    const setOpen = useCategoryDialogStore((state) => state.setOpen);
+
 
     return (
         <div className="space-y-8!">
@@ -22,7 +33,31 @@ const Settings = () => {
             <Preferences />
 
             {/* Categories */}
-            <Categories />
+
+                <section className="space-y-3!">
+
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h2 className="text-sm! font-semibold! text-(--chakra-colors-fg-muted)">
+                                Categories
+                            </h2>
+                        </div>
+
+                        <Button size="xs" variant="ghost" colorPalette={colorPallette} onClick={() => setOpen(true)}>
+                            <LuPlus />
+                            <span>Add Category</span>
+                        </Button>
+                    </div>
+
+                    <CategoryList 
+                        categories={categories ?? []} 
+                        isLoading={isLoading} 
+                        error={error} 
+                    />
+
+                    <CategoryDialog />
+
+            </section>
 
             {/* Data Management */}
             <section className="space-y-3!">

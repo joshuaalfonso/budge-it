@@ -173,7 +173,7 @@ export default function TransactionControls({
                                                             }}
                                                             colorPalette={active ? colorPallette : ''}
                                                         >
-                                                            {item.name}
+                                                           <span className="mr-2 text-base!">{item.icon}</span> {item.name}
                                                         </Button>
                                                     );
                                                 })}

@@ -49,17 +49,12 @@ const WalletDialog = () => {
 
     const { data: categoryData } = useCategory();
 
-    const categories = createListCollection({
-        items: categoryData ?? [],
-        itemToValue: (item) => String(item.id),
-        itemToString: (item) => item.name,
-    })
-
     const { 
         register, 
         control, 
         handleSubmit, 
         reset, 
+        watch,
         formState: { errors, isSubmitting, isDirty }, 
     } = useForm<TransactionFormValues>({ 
         defaultValues: { 
@@ -72,6 +67,16 @@ const WalletDialog = () => {
             transaction_date: '',
         }, 
     });
+
+    const type = watch("type");
+
+    const filteredCategories = categoryData?.filter(category => category.type === type);
+
+    const categories = createListCollection({
+        items: filteredCategories ?? [],
+        itemToValue: (item) => String(item.id),
+        itemToString: (item) => item.name,
+    })
 
     const isWorking = isPending || isUpdating || isSubmitting;
     const isEditMode = Boolean(selected?.id);
@@ -171,7 +176,7 @@ const WalletDialog = () => {
                     <Dialog.Body>
                         <Stack gap="8">
 
-                            <Field.Root gap={3} invalid={!!errors.amount} required>
+                            <Field.Root gap={3} invalid={!!errors.type} required>
                                 <Field.Label 
                                     textTransform="uppercase"
                                     color="fg.muted"
@@ -262,7 +267,7 @@ const WalletDialog = () => {
 
                             <div className='grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-2 '>
                                 {/* Account Type */}
-                                <Field.Root required gap={3} invalid={!!errors.type}>
+                                <Field.Root required gap={3} invalid={!!errors.wallet_id}>
                                     <Field.Label 
                                         textTransform="uppercase"
                                         color="fg.muted"
@@ -319,7 +324,7 @@ const WalletDialog = () => {
                                     )}
                                 </Field.Root>
 
-                                <Field.Root required gap={3} invalid={!!errors.type}>
+                                <Field.Root required gap={3} invalid={!!errors.category_id}>
                                     <Field.Label 
                                         textTransform="uppercase"
                                         color="fg.muted"
@@ -360,7 +365,10 @@ const WalletDialog = () => {
                                                                     item={category} 
                                                                     key={category.id} 
                                                                 > 
-                                                                    {category.name} 
+                                                                    <div className='flex items-center gap-2'>
+                                                                        <span>{category.icon} </span>
+                                                                        <h3>{category.name}</h3>
+                                                                    </div>
                                                                     <Select.ItemIndicator color={`${colorPallette}.500`} /> 
                                                                 </Select.Item> 
                                                             ))} 
@@ -395,7 +403,7 @@ const WalletDialog = () => {
                                 <Field.ErrorText>{errors.description?.message}</Field.ErrorText>
                             </Field.Root>
 
-                            <Field.Root gap={3} invalid={!!errors.amount} required>
+                            <Field.Root gap={3} invalid={!!errors.transaction_date} required>
                                 <Field.Label 
                                     textTransform="uppercase"
                                     color="fg.muted"

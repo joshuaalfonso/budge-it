@@ -2,7 +2,7 @@ import { useDeleteTransaction } from "@/queries/transaction.queries";
 import { useCurrencyStore } from "@/stores/currency.store";
 import { useTransactionDialogStore } from "@/stores/transaction.store";
 import type { Transaction } from "@/types/transaction.types";
-import { Button, Menu, Portal } from "@chakra-ui/react";
+import { Button, EmptyState, Menu, Portal, VStack } from "@chakra-ui/react";
 import {
 //   LuArrowDownLeft,
 //   LuArrowUpRight,
@@ -40,13 +40,25 @@ export default function TransactionList({
 
     if (transactions.length === 0) {
         return (
-            <div className="rounded-2xl border p-8! text-center bg-(--chakra-colors-bg-subtle)">
-                <p className="text-sm font-medium">No transactions found</p>
+            // <div className="rounded-2xl border p-8! text-center bg-(--chakra-colors-bg-subtle)">
+            //     <p className="text-sm font-medium">No transactions found</p>
 
-                <p className="mt-1! text-sm! text-(--chakra-colors-fg-muted)">
-                    Try changing your search or filter.
-                </p>
-            </div>
+            //     <p className="mt-1! text-sm! text-(--chakra-colors-fg-muted)">
+            //         Try changing your search or filter.
+            //     </p>
+            // </div>
+            <EmptyState.Root bg="bg.subtle" rounded="xl">
+                <EmptyState.Content>
+                    <EmptyState.Indicator>
+                    </EmptyState.Indicator>
+                    <VStack textAlign="center">
+                    <EmptyState.Title>No transactions found</EmptyState.Title>
+                    <EmptyState.Description maxW="xs">
+                        Start adding or try changing your filter.
+                    </EmptyState.Description>
+                    </VStack>
+                </EmptyState.Content>
+            </EmptyState.Root>
         );
     }
 

@@ -17,7 +17,7 @@ export const categoryApi =  {
     },
 
     update: async (newItem: CategoryRequest) => {
-        const response = await api.put<{success: boolean, message: string, data: Category}>(`${TABLE_NAME}/${newItem.id}`, newItem);
+        const response = await api.patch<{success: boolean, message: string, data: Category}>(`${TABLE_NAME}/${newItem.id}`, newItem);
         return response.data;
     },
 

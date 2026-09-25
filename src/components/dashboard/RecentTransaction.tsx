@@ -4,6 +4,7 @@
 // } from "react-icons/lu";
 import { useCurrencyStore } from "@/stores/currency.store";
 import { type Transaction } from "@/types/transaction.types";
+import { EmptyState, VStack } from "@chakra-ui/react";
 
 
 interface Props {
@@ -15,6 +16,23 @@ export default function RecentTransactions({ transactions }: Props) {
     const formatCurrency = useCurrencyStore(
         (state) => state.formatCurrency
     );
+
+    if (transactions.length === 0) {
+        return (
+            <EmptyState.Root bg="bg.subtle" rounded="xl">
+                <EmptyState.Content>
+                    <EmptyState.Indicator>
+                    </EmptyState.Indicator>
+                    <VStack textAlign="center">
+                    <EmptyState.Title>No transactions yet</EmptyState.Title>
+                    <EmptyState.Description maxW="xs">
+                        Start tracking your finances by adding your first income or expense.
+                    </EmptyState.Description>
+                    </VStack>
+                </EmptyState.Content>
+            </EmptyState.Root>
+        );
+    }
 
     return (
         <section>
