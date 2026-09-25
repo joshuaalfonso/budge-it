@@ -18,7 +18,7 @@ export default function Transactions() {
 
     const setOpen = useTransactionDialogStore((state) => state.setOpen);
 
-    const { filters, setFilter, setCursor } = useTransactionFilters();
+    const { filters, setFilter, setCursor, clearFilters } = useTransactionFilters();
 
     const { data: transactions, isPending, isFetching, error } = useTransaction(filters);
     const { data: categories } = useCategory();
@@ -52,7 +52,7 @@ export default function Transactions() {
                     setSearch={setSearch}
                     currentType={filters.type}
                     currentCategory={filters.category_id}
-                    onTypeChange={(value) => setFilter({ type: value })}
+                    onTypeChange={(value) => setFilter({ type: value, category_id: undefined })}
                     onCategoryChange={(value) => setFilter({ category_id: value?.toString() })}
                     onDateChange={(details) => {
                         const [startDate, endDate] = details.value;
@@ -69,6 +69,7 @@ export default function Transactions() {
                             });
                         }
                     }}
+                    clearFilters={clearFilters}
                 />
 
                 <TransactionList transactions={transactions.data ?? []} />

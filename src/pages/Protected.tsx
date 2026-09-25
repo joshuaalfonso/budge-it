@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useMe } from "@/queries/auth.queries";
+import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 
 interface ProtectedProps {
   children: React.ReactNode;
@@ -11,9 +12,7 @@ export const Protected = ({ children }: ProtectedProps) => {
 
     if (isLoading) {
         return (
-            <div className="grid h-dvh place-items-center">
-                <p>Loading...</p>
-            </div>
+            <LoadingSpinner />
         );
     }
 

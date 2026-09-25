@@ -8,6 +8,7 @@ export interface Transaction {
     walletName: string
     categoryId: number
     categoryName: string
+    categoryIcon: string
     createdAt: string
     updatedAt: string
 }

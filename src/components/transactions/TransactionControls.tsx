@@ -1,4 +1,4 @@
-import { LuSearch, LuSlidersHorizontal, LuCalendar } from "react-icons/lu";
+import { LuSearch, LuSlidersHorizontal, LuCalendar, LuRotateCcw } from "react-icons/lu";
 import { Button, DatePicker, Popover, Portal } from "@chakra-ui/react";
 import type { Category } from "@/types/category.type";
 import { colorPallette } from "@/constants";
@@ -12,6 +12,7 @@ interface TransactionControlsProps {
     onCategoryChange: (value: string | undefined) => void;
     onDateChange: (details: { value: {day: number, era: string, month: number, year: number}[] }) => void;
     categories: Category[]; 
+    clearFilters: () => void;
 }
 
 export default function TransactionControls({
@@ -22,7 +23,8 @@ export default function TransactionControls({
     onTypeChange,
     onCategoryChange,
     onDateChange,
-    categories
+    categories,
+    clearFilters
 }: TransactionControlsProps) {
     return (
         <div className="space-y-5!">
@@ -119,7 +121,7 @@ export default function TransactionControls({
                                             <h1 className="text-xs! font-medium! mb-2! text-(--chakra-colors-fg-muted) uppercase">Type</h1>
                                             <div className="flex gap-2 overflow-x-auto pb-1!">
                                                 {[
-                                                    { label: "All", value: undefined },
+                                                    // { label: "All", value: undefined },
                                                     { label: "Income", value: "income" },
                                                     { label: "Expenses", value: "expense" },
                                                 ].map((item) => {
@@ -132,7 +134,7 @@ export default function TransactionControls({
                                                             rounded="xl"
                                                             size="sm"
                                                             variant={active ? 'solid': 'subtle'}
-                                                            onClick={() => onTypeChange(item.value)}
+                                                            onClick={() => onTypeChange(currentType === item.value ? undefined : item.value)}
                                                             colorPalette={active ? colorPallette : ''}
                                                         >
                                                             {item.label}
@@ -179,6 +181,18 @@ export default function TransactionControls({
                                                 })}
                                             </div>
                                         </div>
+
+                                        <div>
+                                            <Button
+                                                size="xs"
+                                                variant="plain"
+                                                onClick={() => clearFilters()}
+                                            >
+                                                <LuRotateCcw />
+                                                Clear Filters
+                                            </Button>
+                                        </div>
+
                                     </div>
                             
                                 </Popover.Body>

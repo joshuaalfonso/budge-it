@@ -63,7 +63,7 @@ export default function TransactionList({
     }
 
     return (
-        <div className="overflow-hidden! rounded-md! border bg-(--chakra-colors-bg-subtle)! p-4! ">
+        <div className="overflow-hidden! rounded-md! border bg-(--chakra-colors-bg-subtle)! ">
             {transactions.map((transaction, index) => {
                 const Icon = icons[transaction.categoryName as keyof typeof icons] ?? LuWallet;
 
@@ -72,17 +72,18 @@ export default function TransactionList({
                 return (
                     <div
                         key={transaction.id}
-                        className={`flex items-center gap-3 p-4! sm:px-5! group ${
+                        className={`flex items-center gap-2 p-4! sm:px-5! group ${
                         index !== transactions.length - 1
                             ? "border-b! "
                             : ""
                         }`}
                     >
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-(--chakra-colors-bg-emphasized)!">
-                            <Icon
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full ">
+                            {/* <Icon
                                 size={18}
                                 className="text-(--chakra-colors-fg-muted)"
-                            />
+                            /> */}
+                            <span className="text-2xl!">{transaction.categoryIcon}</span>
                         </div>
 
                         <div className="min-w-0 flex-1">

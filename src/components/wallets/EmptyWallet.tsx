@@ -3,6 +3,7 @@ import { Button } from "@chakra-ui/react";
 import { motion, type Variants } from "framer-motion";
 import WalletDialog from "./WalletDialog";
 import { useWalletDialogStore } from "@/stores/wallet.store";
+import { colorPallette } from "@/constants";
 
 const EmptyWallet = () => {
 
@@ -53,9 +54,9 @@ const EmptyWallet = () => {
                     variants={itemVariants}
                     className="space-y-3!"
                 >
-                    {/* <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-center">
                         <img src={user?.picture} alt="Icon" className="rounded-full h-15 w-15" />
-                    </div> */}
+                    </div>
                     <h1 className="text-2xl! font-semibold! tracking-tight!">
                         Welcome {user?.name}! 👋
                     </h1>
@@ -87,7 +88,7 @@ const EmptyWallet = () => {
                         }}
                     >
                         <Button
-                            colorPalette="orange"
+                            colorPalette={colorPallette}
                             size="lg"
                             width="full"
                             borderRadius="lg"

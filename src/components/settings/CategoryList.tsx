@@ -37,11 +37,28 @@ const CategoryList = ({ categories, isLoading, error }: Props) => {
 
     return (
 
-        <ScrollArea.Root bg="bg.subtle" rounded="xl" maxH="30rem" maxW="" pr={2}>
+        <ScrollArea.Root bg="bg.subtle" size="xs" rounded="xl" maxH="30rem" maxW="">
 
-            <ScrollArea.Viewport>
+            <ScrollArea.Viewport
+                css={{
+                    "--scroll-shadow-size": "4rem",
+                    maskImage: "linear-gradient(#000, #000)",
+                    "&[data-overflow-y]": {
+                        maskImage:
+                        "linear-gradient(#000,#000,transparent 0,#000 var(--scroll-shadow-size),#000 calc(100% - var(--scroll-shadow-size)),transparent)",
+                        "&[data-at-top]": {
+                        maskImage:
+                            "linear-gradient(180deg,#000 calc(100% - var(--scroll-shadow-size)),transparent)",
+                        },
+                        "&[data-at-bottom]": {
+                        maskImage:
+                            "linear-gradient(0deg,#000 calc(100% - var(--scroll-shadow-size)),transparent)",
+                        },
+                    },
+                }}
+            >
 
-                <ScrollArea.Content spaceY="4" textStyle="sm">
+                <ScrollArea.Content spaceY="4" textStyle="sm" paddingEnd="5">
                     {categories.map((category) => (
                         <CategoryRow 
                             key={category.icon} 

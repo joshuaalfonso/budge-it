@@ -1,4 +1,4 @@
-import { LuLoader } from "react-icons/lu";
+import { LuLoader, LuPlus } from "react-icons/lu";
 import { Button } from "@chakra-ui/react";
 import { colorPallette } from "@/constants";
 
@@ -19,17 +19,19 @@ export default function TransactionHeader({ isFetching, onOpenDialog }: Transact
                         <LuLoader className="animate-spin text-(--chakra-colors-fg-muted)" size={18} />
                     )}
                 </div>
-                <p className="mt-1! text-sm! text-(--chakra-colors-fg-muted)">
+                <p className="mt-1! text-sm! text-(--chakra-colors-fg-muted) max-w-xs">
                     Keep track of where your money goes
                 </p>
             </div>
             <Button 
                 size="sm" 
-                color="white" 
+                // color="white" 
+                variant="solid"
                 colorPalette={colorPallette} 
                 onClick={onOpenDialog}
             >
-                Add Transaction
+                <LuPlus />
+                <span className="hidden md:block">Add Transaction</span>
             </Button>
         </div>
     );

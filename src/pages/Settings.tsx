@@ -4,8 +4,9 @@ import Preferences from "@/components/settings/Preferences"
 import { colorPallette } from "@/constants"
 import { useCategoryDialogStore } from "@/stores/category.store";
 import { Button } from "@chakra-ui/react";
-import { LuPlus } from "react-icons/lu";
 import { useCategory } from "@/queries/category.queries";
+import { Tooltip } from "@/components/ui/tooltip";
+import { LuCircleAlert, LuFileDown, LuFileUp } from "react-icons/lu";
 
 
 
@@ -43,8 +44,8 @@ const Settings = () => {
                             </h2>
                         </div>
 
-                        <Button size="xs" variant="ghost" colorPalette={colorPallette} onClick={() => setOpen(true)}>
-                            <LuPlus />
+                        <Button size="xs" variant="subtle" colorPalette={colorPallette} onClick={() => setOpen(true)}>
+                            {/* <LuPlus /> */}
                             <span>Add Category</span>
                         </Button>
                     </div>
@@ -71,49 +72,51 @@ const Settings = () => {
                 </div>
 
                 <div className="divide-y!  rounded-xl  bg-(--chakra-colors-bg-subtle) ">
-                    <div className="flex items-center justify-between gap-4 p-4!">
+                    <div className="flex items-center justify-between gap-4 px-6! py-3!">
                         <div>
-                            <p className="text-sm font-medium text-(--chakra-colors-fg-muted)">
-                                Export data
+                            <p className="text-sm! font-medium text-(--chakra-colors-fg-muted)">
+                                Export Data
                             </p>
                             {/* <p className="mt-0.5 text-sm text-gray-500">
                                 Download your transactions as a CSV file.
                             </p> */}
                         </div>
 
-                        <button className="rounded-lg border! px-3! py-2! text-sm! font-medium! ">
+                        <Button size="sm" variant="outline">
+                            <LuFileUp />
                             Export
-                        </button>
+                        </Button>
                     </div>
 
-                    <div className="flex items-center justify-between gap-4 p-4!">
+                    <div className="flex items-center justify-between gap-4 px-6! py-3!">
                         <div>
                             <p className="text-sm! font-medium! text-(--chakra-colors-fg-muted)">
-                                Import data
+                                Import Data
                             </p>
                             {/* <p className="mt-0.5 text-sm text-gray-500">
                                 Import transactions from a CSV file.
                             </p> */}
                         </div>
 
-                        <button className="rounded-lg border! px-3! py-2! text-sm! font-medium! ">
+                        <Button size="sm" variant="outline">
+                            <LuFileDown />
                             Import
-                        </button>
+                        </Button>
                     </div>
 
-                    <div className="flex items-center justify-between gap-4 p-4!">
+                    <div className="flex items-center justify-between gap-4 px-6! py-3!">
                         <div>
                             <p className="text-sm! font-medium! text-(--chakra-colors-fg-muted)">
-                                Clear transactions
+                                Clear Transactions
                             </p>
-                            <p className="mt-0.5! text-sm! text-(--chakra-colors-fg-subtle)">
+                            <p className="mt-0.5! text-sm! text-(--chakra-colors-fg-subtle) w-50 md:w-auto">
                                 Remove all transactions while keeping your categories.
                             </p>
                         </div>
 
-                        <button className="rounded-lg  px-3! py-2! text-sm! font-medium! text-red-400! bg-red-400/10! ">
-                            Clear data
-                        </button>
+                        <Button size="sm" colorPalette="red" variant="subtle" rounded="md">
+                           Clear Data
+                        </Button>
                     </div>
                 </div>
             </section>
@@ -129,21 +132,30 @@ const Settings = () => {
                     </p> */}
                 </div>
 
-                <div className="rounded-xl border border-red-200 bg-red-400/10 p-4!">
+                <div className="rounded-xl border bg-(--chakra-colors-bg-subtle) px-6! py-3!">
                     <div className="flex items-center justify-between gap-4">
-                        <div>
+                        <div className="flex items-center">
                             <p className="text-sm! font-medium! text-(--chakra-colors-fg-muted)">
-                                Delete all data
+                                Reset Data
                             </p>
-                            <p className="mt-0.5! text-sm! text-(--chakra-colors-fg-subtle)">
+                            <Tooltip 
+                                content="Permanently delete your transactions, wallets,
+                                and categories."
+                                // contentProps={{ css: { "--tooltip-bg": "colors.red.200" } }}
+                            >
+                                <Button variant="plain" size="xs">
+                                    <LuCircleAlert />
+                                </Button>
+                            </Tooltip>
+                            {/* <p className="mt-0.5! text-sm! text-(--chakra-colors-fg-subtle) w-50 md:w-auto">
                                 Permanently delete your transactions, wallets,
                                 and categories.
-                            </p>
+                            </p> */}
                         </div>
 
-                        <button className="shrink-0 rounded-lg bg-red-500! px-3! py-2! text-sm! font-medium! text-white ">
+                        <Button size="sm" colorPalette="red" variant="subtle" rounded="md">
                             Delete everything
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </section>

@@ -75,12 +75,13 @@ export default function MobileNav() {
           );
         })}
 
-        <button
+        {/* <button
           className="absolute -top-7 left-1/2 flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-full bg-(--chakra-colors-bg-subtle)! border! border-(--chakra-colors-border-muted)!"
           aria-label="Add transaction"
         >
           <LuPlus size={24} />
-        </button>
+        </button> */}
+
       </div>
     </nav>
   );

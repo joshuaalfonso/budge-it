@@ -132,7 +132,7 @@ const CategoryDialog = () => {
             open={open}
             onOpenChange={handleOpenChange}
             placement="center"
-            size={{ mdDown: "sm", md: "md" }}
+            size={{ mdDown: "xs", md: "md" }}
         >
         <Dialog.Trigger asChild />
 

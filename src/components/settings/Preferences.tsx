@@ -46,7 +46,7 @@ const Preferences = () => {
 
             <div className="divide-y! rounded-xl bg-(--chakra-colors-bg-subtle)">
                 {/* Currency */}
-                <div className="flex items-center justify-between gap-4! p-4!">
+                <div className="flex items-center justify-between gap-4! px-6! py-3!">
                     <div>
                         <p className="text-sm! font-medium! text-(--chakra-colors-fg-muted)">
                             Currency
@@ -91,7 +91,7 @@ const Preferences = () => {
                 </div>
 
                 {/* Theme */}
-                <div className="flex items-center justify-between gap-4! p-4!">
+                <div className="flex items-center justify-between gap-4! px-6! py-3!">
                     <div>
                         <p className="text-sm! font-medium! text-(--chakra-colors-fg-muted)">
                             Theme
