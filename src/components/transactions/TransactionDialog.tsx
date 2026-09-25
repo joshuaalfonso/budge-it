@@ -2,7 +2,7 @@ import { colorPallette } from '@/constants';
 // import { walletType } from '@/data/wallet';
 import {  useWallet } from '@/queries/wallet.queries';
 // import type { WalletType } from '@/types/wallet.types';
-import {  Button, CloseButton, createListCollection, DatePicker, Dialog, Field, HStack, Input, NumberInput, parseDate, Portal, RadioCard, Select, Stack } from '@chakra-ui/react';
+import {  Button, CloseButton, createListCollection, DatePicker, Dialog, Field, HStack, Input, InputGroup, NumberInput, parseDate, Portal, RadioCard, Select, Stack } from '@chakra-ui/react';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toaster } from '../ui/toaster';
 import { useEffect } from 'react';
@@ -75,6 +75,14 @@ const WalletDialog = () => {
 
     const isWorking = isPending || isUpdating || isSubmitting;
     const isEditMode = Boolean(selected?.id);
+
+    const currencySymbol = new Intl.NumberFormat(undefined, {
+        style: "currency",
+        currency,
+    })
+        .formatToParts(0)
+        .find((part) => part.type === "currency")?.value
+
 
     const onSubmit: SubmitHandler<TransactionFormValues> = async (data) => { 
         const payload = { 
@@ -210,7 +218,7 @@ const WalletDialog = () => {
                                     textTransform="uppercase"
                                     color="fg.muted"
                                 >
-                                    Amount
+                                    Amount 
                                     <Field.RequiredIndicator />
                                 </Field.Label>
 
@@ -232,18 +240,18 @@ const WalletDialog = () => {
                                             variant="subtle"
                                             w="full"
                                             colorPalette={colorPallette}
-                                            formatOptions={{
-                                                style: "currency",
-                                                currency: currency,
-                                                currencyDisplay: "symbol",
-                                                currencySign: "standard",
-                                            }}
+                                            // formatOptions={{
+                                            //     style: "currency",
+                                            //     currency: currency,
+                                            //     currencyDisplay: "symbol",
+                                            //     currencySign: "standard",
+                                            // }}
                                         >
                                             <NumberInput.Control />
                                             {/* <InputGroup startElement={<LuPhilippinePeso />}> */}
-                                            {/* <InputGroup startElement={currency}> */}
+                                            <InputGroup startElement={currencySymbol}>
                                                 <NumberInput.Input onBlur={field.onBlur} placeholder="0.00" borderRadius="xl" />
-                                            {/* </InputGroup> */}
+                                            </InputGroup>
                                         </NumberInput.Root>
                                     )}
                                 />
@@ -425,15 +433,15 @@ const WalletDialog = () => {
                                                 <DatePicker.Content>
                                                 <DatePicker.View view="day">
                                                     <DatePicker.Header />
-                                                    <DatePicker.DayTable />
+                                                    <DatePicker.DayTable colorPalette={colorPallette} />
                                                 </DatePicker.View>
                                                 <DatePicker.View view="month">
                                                     <DatePicker.Header />
-                                                    <DatePicker.MonthTable />
+                                                    <DatePicker.MonthTable colorPalette={colorPallette} />
                                                 </DatePicker.View>
                                                 <DatePicker.View view="year">
                                                     <DatePicker.Header />
-                                                    <DatePicker.YearTable />
+                                                    <DatePicker.YearTable colorPalette={colorPallette} />
                                                 </DatePicker.View>
                                                 </DatePicker.Content>
                                             </DatePicker.Positioner>

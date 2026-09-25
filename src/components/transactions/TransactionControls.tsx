@@ -75,18 +75,6 @@ export default function TransactionControls({
                                                 variant={'subtle'}
                                                 size="sm"
                                                 colorPalette={colorPallette} 
-                                                css={{
-                                                    // Targets the day cell trigger when selected or in range
-                                                    "& [data-part='table-cell-trigger'][data-selected]": {
-                                                    bg: "blue.400 !important",
-                                                    color: "white !important",
-                                                    },
-                                                    // Target highlighted range cells (between start and end dates)
-                                                    "& [data-part='table-cell-trigger'][data-in-range]": {
-                                                    bg: "blue.100 !important",
-                                                    color: "blue.800 !important",
-                                                    },
-                                                }}
                                             >
                                                 <DatePicker.Control>
                                                     <DatePicker.Input index={0} borderRadius="xl" border="none"  />
@@ -110,15 +98,15 @@ export default function TransactionControls({
                                                         <DatePicker.Content>
                                                             <DatePicker.View view="day">
                                                                 <DatePicker.Header />
-                                                                <DatePicker.DayTable />
+                                                                <DatePicker.DayTable colorPalette={colorPallette} />
                                                             </DatePicker.View>
                                                             <DatePicker.View view="month">
                                                                 <DatePicker.Header />
-                                                                <DatePicker.MonthTable />
+                                                                <DatePicker.MonthTable colorPalette={colorPallette} />
                                                             </DatePicker.View>
                                                             <DatePicker.View view="year">
                                                                 <DatePicker.Header />
-                                                                <DatePicker.YearTable />
+                                                                <DatePicker.YearTable colorPalette={colorPallette}/>
                                                             </DatePicker.View>
                                                         </DatePicker.Content>
                                                     </DatePicker.Positioner>
