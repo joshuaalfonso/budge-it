@@ -74,7 +74,7 @@ export default function Transactions() {
 
                 <TransactionList transactions={transactions.data ?? []} />
 
-                {transactions.data?.length > 10 && (
+                {(transactions.pagination.hasNextPage || transactions.pagination.hasPreviousPage) && (
                     <div className="flex items-center justify-end gap-4">
                         <Button
                             variant="subtle"
