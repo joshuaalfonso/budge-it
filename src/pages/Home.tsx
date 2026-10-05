@@ -76,7 +76,7 @@ const Home = () => {
             </nav>
 
             <section className="mx-auto! max-w-6xl! px-6! pb-24! pt-16! lg:pt-28!">
-                <div className="grid items-center gap-8 xl:gap-16 md:grid-cols-2">
+                <div className="grid items-center gap-16 md:grid-cols-2">
 
                     <div>
                         <div className="mb-6! inline-flex items-center gap-2 rounded-full  px-3.5! py-1.5! text-sm! font-medium! text-blue-500">
