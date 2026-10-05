@@ -1,7 +1,5 @@
 import { colorPallette } from '@/constants';
-// import { walletType } from '@/data/wallet';
 import {  useWallet } from '@/queries/wallet.queries';
-// import type { WalletType } from '@/types/wallet.types';
 import {  Button, CloseButton, createListCollection, DatePicker, Dialog, Field, HStack, Input, InputGroup, NumberInput, parseDate, Portal, RadioCard, Select, Stack } from '@chakra-ui/react';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toaster } from '../ui/toaster';
@@ -87,6 +85,10 @@ const WalletDialog = () => {
     })
         .formatToParts(0)
         .find((part) => part.type === "currency")?.value
+
+    const formatCurrency = useCurrencyStore(
+        (state) => state.formatCurrency
+    );
 
 
     const onSubmit: SubmitHandler<TransactionFormValues> = async (data) => { 
@@ -309,7 +311,12 @@ const WalletDialog = () => {
                                                                     item={wallet} 
                                                                     key={wallet.id} 
                                                                 > 
-                                                                    {wallet.name} 
+                                                                    <div>
+                                                                        <span>{wallet.name}</span>
+                                                                        <p className='text-xs! text-(--chakra-colors-fg-muted) mt-1!'>
+                                                                            {formatCurrency(+wallet.balance)}
+                                                                        </p>
+                                                                    </div> 
                                                                     <Select.ItemIndicator color={`${colorPallette}.500`} /> 
                                                                 </Select.Item> 
                                                             ))} 
@@ -359,7 +366,7 @@ const WalletDialog = () => {
                                                 </Select.Control> 
                                                 <Portal> 
                                                     <Select.Positioner> 
-                                                        <Select.Content> 
+                                                        <Select.Content maxHeight="250px"> 
                                                             {categories.items.map((category) => ( 
                                                                 <Select.Item 
                                                                     item={category} 

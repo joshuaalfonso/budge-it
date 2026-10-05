@@ -6,21 +6,17 @@ import { Button, EmptyState, Menu, Portal, VStack } from "@chakra-ui/react";
 import {
 //   LuArrowDownLeft,
 //   LuArrowUpRight,
-  LuCar,
-  LuCoffee,
   LuEllipsis,
-  LuShoppingCart,
-  LuWallet,
 } from "react-icons/lu";
 
 
-const icons = {
-  Food: LuCoffee,
-  Shopping: LuShoppingCart,
-  Transportation: LuCar,
-  Salary: LuWallet,
-  Freelance: LuWallet,
-};
+// const icons = {
+//   Food: LuCoffee,
+//   Shopping: LuShoppingCart,
+//   Transportation: LuCar,
+//   Salary: LuWallet,
+//   Freelance: LuWallet,
+// };
 
 type TransactionListProps = {
   transactions: Transaction[];
@@ -65,7 +61,7 @@ export default function TransactionList({
     return (
         <div className="overflow-hidden! rounded-md! border bg-(--chakra-colors-bg-subtle)! ">
             {transactions.map((transaction, index) => {
-                const Icon = icons[transaction.categoryName as keyof typeof icons] ?? LuWallet;
+                // const Icon = icons[transaction.categoryName as keyof typeof icons] ?? LuWallet;
 
                 const isIncome = transaction.type === "income";
 
