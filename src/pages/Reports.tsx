@@ -4,18 +4,45 @@ import SpendByCategoryChart from "@/components/reports/SpendByCategoryChart";
 import SpendTrendChart from "@/components/reports/SpendTrendChart";
 import { useMonthlyReport } from "@/queries/analytics.queries";
 import { useCurrencyStore } from "@/stores/currency.store";
-import { ScrollArea } from "@chakra-ui/react";
-import { LuArrowDownRight, LuArrowUpRight, LuCalendarDays } from "react-icons/lu";
-
+import { DatePicker, parseDate, Portal, ScrollArea, type DateValue } from "@chakra-ui/react";
+import { LuArrowDownRight, LuArrowUpRight, LuCalendar, LuLoader } from "react-icons/lu";
+import { CalendarDate } from "@internationalized/date"
+import { useState } from "react";
+import { colorPallette } from "@/constants";
 
 export default function Reports() {
 
+    const currentDate = new Date();
 
-    const { data:monthlyReport, isPending, error } = useMonthlyReport();
+    const [selectedDate, setSelectedDate] = useState<DateValue[]>([parseDate(currentDate)]);
+
+    const selectedMonth = selectedDate[0].month;
+    const selectedYear = selectedDate[0].year;
+
+
+    const { data:monthlyReport, isPending, isFetching, error } = useMonthlyReport({
+        month: selectedMonth,
+        year: selectedYear
+    });
 
      const formatCurrency = useCurrencyStore(
             (state) => state.formatCurrency
     );
+
+    const format = (date: DateValue) => {
+        const month = date.month.toString().padStart(2, "0")
+        const year = date.year.toString()
+        return `${month}/${year}`
+    }
+
+    const parse = (string: string) => {
+        const fullRegex = /^(\d{1,2})\/(\d{4})$/
+        const fullMatch = string.match(fullRegex)
+        if (fullMatch) {
+            const [, month, year] = fullMatch.map(Number)
+            return new CalendarDate(year, month, 1)
+        }
+    }
 
 
     if (isPending) return <p>Loading...</p>;
@@ -25,23 +52,63 @@ export default function Reports() {
         <div >
             {/* Header */}
             <div className="mb-6! flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+
                 <div>
-                    <h1 className="text-2xl! font-semibold! tracking-tight">
-                        Reports
-                    </h1>
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-2xl! font-semibold! tracking-tight! sm:text-2xl!">
+                            Reports
+                        </h1>
+                        {isFetching && (
+                            <LuLoader className="animate-spin text-(--chakra-colors-fg-muted)" size={18} />
+                        )}
+                    </div>
 
                      <p className="mt-1! text-sm! text-(--chakra-colors-fg-muted)">
                         Understand your spending habits
                     </p>
+
                 </div>
 
-                <button
-                    type="button"
-                    className="flex h-10 w-full items-center justify-center gap-2 rounded-md  bg-(--chakra-colors-bg-subtle)! px-4! text-sm! font-medium! transition sm:w-auto"
-                >
-                    <LuCalendarDays size={17} />
-                    September 2026
-                </button>
+                <div className="flex justify-end">
+                    <DatePicker.Root
+                        format={format}
+                        parse={parse}
+                        value={selectedDate}
+                        onValueChange={(details) => {
+                            setSelectedDate(details.value);
+                        }}
+                        defaultView="month"
+                        minView="month"
+                        placeholder="mm/yyyy"
+                        maxWidth="10rem"
+                        bg="bg.subtle"
+                    >
+                        <DatePicker.Control>
+                            <DatePicker.Input  colorPalette={colorPallette} />
+                            <DatePicker.IndicatorGroup>
+                            <DatePicker.Trigger>
+                                <LuCalendar />
+                            </DatePicker.Trigger>
+                            </DatePicker.IndicatorGroup>
+                        </DatePicker.Control>
+                        <Portal>
+                            <DatePicker.Positioner>
+                            <DatePicker.Content>
+                                <DatePicker.View view="month">
+                                <DatePicker.Header />
+                                <DatePicker.MonthTable  colorPalette={colorPallette} />
+                                </DatePicker.View>
+                                <DatePicker.View view="year">
+                                <DatePicker.Header />
+                                <DatePicker.YearTable  colorPalette={colorPallette} />
+                                </DatePicker.View>
+                            </DatePicker.Content>
+                            </DatePicker.Positioner>
+                        </Portal>
+                    </DatePicker.Root>
+                </div>
+
+
             </div>
 
             <div className="space-y-4! sm:space-y-6!">
@@ -122,13 +189,11 @@ export default function Reports() {
                     </div>
 
                     {/* Chart */}
-                    <div className="flex h-auto items-center justify-center rounded-md bg-(--chakra-colors-bg-subtle)">
-                        {/* <p className="text-sm! text-(--chakra-colors-fg-muted)">
-                            Your chart goes here
-                        </p> */}
-
-                        <SpendTrendChart dailySpending={monthlyReport.dailySpending ?? []} />
-
+                    <div className="flex min-h-64 mt-8! items-center justify-center rounded-md bg-(--chakra-colors-bg-subtle)">
+                        <SpendTrendChart 
+                            dailySpending={monthlyReport.dailySpending ?? []} 
+                            totalExpense={monthlyReport?.summary?.totalExpense ?? 0}
+                        />
                     </div>
 
                 </section>
@@ -151,8 +216,10 @@ export default function Reports() {
                             {/* <div className="h-64 rounded-xl bg-(--chakra-colors-bg-subtle)"> */}
                             <ScrollArea.Root height="64" size="xs" >
                                 <ScrollArea.Viewport>
-                                <ScrollArea.Content   paddingEnd="5">
-                                    <SpendByCategoryChart spendingByCategory={monthlyReport.spendingByCategory} />
+                                <ScrollArea.Content   paddingEnd="5" className="h-full">
+                                    <SpendByCategoryChart 
+                                        spendingByCategory={monthlyReport.spendingByCategory} 
+                                    />
                                 </ScrollArea.Content>
                                 </ScrollArea.Viewport>
                                 <ScrollArea.Scrollbar>

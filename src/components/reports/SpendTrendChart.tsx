@@ -11,10 +11,11 @@ import {
 } from "recharts"
 
 interface Props {
-  dailySpending: DailySpending[]
+  dailySpending: DailySpending[],
+  totalExpense: number
 }
 
-const SpendTrendChart = ({ dailySpending }: Props) => {
+const SpendTrendChart = ({ dailySpending, totalExpense }: Props) => {
 
 
     const formattedData = dailySpending.map((item) => ({
@@ -25,12 +26,18 @@ const SpendTrendChart = ({ dailySpending }: Props) => {
     const chart = useChart({
         data: formattedData,
         series: [
-        {
-            name: "totalExpense",
-            color: `${colorPallette}.emphasized`,
-        },
+            {
+                name: "totalExpense",
+                color: `${colorPallette}.emphasized`,
+            },
         ],
     })
+
+    if (!totalExpense) return (
+        <div className="h-full! grid place-items-center">
+            <span className="text-(--chakra-colors-fg-muted)">Nothing to display</span>
+        </div>
+    )
 
     return (
         <Chart.Root maxH="xs" chart={chart}>

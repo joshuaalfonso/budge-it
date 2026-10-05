@@ -4,10 +4,13 @@ import { api } from "./axios"
 
 const TABLE_NAME = 'dashboard/analytics';
 
+
 export const analyticsApi =  {
 
-    getMonthlyReport: async () => {
-        const response = await api.get<MonthlyReport>(`${TABLE_NAME}`);
+    getMonthlyReport: async (params?: { month?: number; year?: number }) => {
+        const response = await api.get<MonthlyReport>(`${TABLE_NAME}`, {
+            params,
+        });
         return response.data;
     },
 

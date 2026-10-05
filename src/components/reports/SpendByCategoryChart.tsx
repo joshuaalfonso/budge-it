@@ -8,8 +8,6 @@ interface Props {
 
 const SpendByCategoryChart = ({spendingByCategory}: Props) => {
 
-    console.log(spendingByCategory)
-
     const data: BarListData[] = spendingByCategory.map(({ categoryName, total }) => ({
         name: categoryName,
         value: +total,
@@ -21,14 +19,20 @@ const SpendByCategoryChart = ({spendingByCategory}: Props) => {
         series: [{ name: "name", color: "blue.emphasized" }],
     })
 
-  return (
-    <BarList.Root chart={chart} w="w-full">
-      <BarList.Content>
-        <BarList.Bar />
-        <BarList.Value />
-      </BarList.Content>
-    </BarList.Root>
-  )
+    if (spendingByCategory.length === 0) return (
+        <div className="h-full! grid place-items-center">
+            <span className="text-(--chakra-colors-fg-muted)">Nothing to display</span>
+        </div>
+    )
+
+    return (
+        <BarList.Root chart={chart} w="w-full">
+        <BarList.Content>
+            <BarList.Bar />
+            <BarList.Value />
+        </BarList.Content>
+        </BarList.Root>
+    )
 
 
 }

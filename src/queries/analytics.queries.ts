@@ -1,14 +1,18 @@
 import { analyticsApi } from "@/api/analytics"
-import { useQuery } from "@tanstack/react-query"
+import { keepPreviousData, useQuery } from "@tanstack/react-query"
 
 
 
+type MonthlyReportParams = {
+    month?: number
+    year?: number
+}
 
-
-export const useMonthlyReport = () => {
-    return  useQuery({
-        queryKey: ['analytics_monthly_report'],
-        queryFn: analyticsApi.getMonthlyReport,
+export const useMonthlyReport = (params?: MonthlyReportParams) => {
+    return useQuery({
+        queryKey: ["analytics_monthly_report", params],
+        queryFn: () => analyticsApi.getMonthlyReport(params),
+         placeholderData: keepPreviousData,
         retry: false,
         staleTime: 5 * 60 * 1000,
     })
