@@ -4,6 +4,7 @@ import { useWalletDialogStore } from "@/stores/wallet.store";
 import type { Wallet } from "@/types/wallet.types";
 import { Button, Menu, Portal } from "@chakra-ui/react";
 import { LuEllipsis } from "react-icons/lu";
+import { toaster } from "../ui/toaster";
 
 
 type WalletCardProps = {
@@ -16,6 +17,26 @@ export default function WalletCard({ wallet }: WalletCardProps) {
     const setSelected = useWalletDialogStore((state) => state.setSelected);
 
     const { mutate: deleteWallet, isPending: isDeleting } = useDeleteWallet();
+
+    const handleDelete = (id: Wallet['id']) => {
+        deleteWallet(
+            id,
+            {
+                onSuccess: () => {
+                    toaster.create({
+                        title: 'Successfully deleted'
+                    })
+                },
+                onError: (error) => {
+                    console.error(error)
+                    toaster.create({
+                        title: 'Something went wrong',
+                        type: 'error'
+                    })
+                }
+            }
+        )
+    }
 
     const formatCurrency = useCurrencyStore(
         (state) => state.formatCurrency
@@ -61,7 +82,7 @@ export default function WalletCard({ wallet }: WalletCardProps) {
                         <Menu.Positioner>
                         <Menu.Content>
                             <Menu.Item value="edit" onClick={() => setSelected(wallet)}>Edit</Menu.Item>
-                            <Menu.Item value="delete" onClick={() => deleteWallet(wallet.id)}>Delete</Menu.Item>
+                            <Menu.Item value="delete" onClick={() => handleDelete(wallet.id)}>Delete</Menu.Item>
                         </Menu.Content>
                         </Menu.Positioner>
                     </Portal>

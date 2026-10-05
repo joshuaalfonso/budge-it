@@ -2,10 +2,10 @@ import type { AuthUser } from "@/types/auth.types";
 import { api } from "./axios";
 
 
-export const verifyGoogleCredential = async (credential: string) => {
+export const verifyGoogleCredential = async (code: string) => {
 
     const response = await api.post<AuthUser>("/auth/google", {
-        credential,
+        code,
     });
 
     return response.data;
