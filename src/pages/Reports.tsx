@@ -4,6 +4,7 @@ import SpendByCategoryChart from "@/components/reports/SpendByCategoryChart";
 import SpendTrendChart from "@/components/reports/SpendTrendChart";
 import { useMonthlyReport } from "@/queries/analytics.queries";
 import { useCurrencyStore } from "@/stores/currency.store";
+import { ScrollArea } from "@chakra-ui/react";
 import { LuArrowDownRight, LuArrowUpRight, LuCalendarDays } from "react-icons/lu";
 
 
@@ -45,7 +46,7 @@ export default function Reports() {
 
             <div className="space-y-4! sm:space-y-6!">
                 {/* Overview */}
-                <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+                <section className="grid grid-cols-2 gap-3 lg:grid-cols-3">
                     <div className="rounded-md p-4! bg-(--chakra-colors-bg-subtle)">
                         <p className="text-sm! text-(--chakra-colors-fg-muted)">
                             Income
@@ -110,7 +111,7 @@ export default function Reports() {
 
                 {/* Spending trend */}
                 <section className="rounded-md border p-4! bg-(--chakra-colors-bg-subtle) sm:p-5!">
-                    <div className="mb-5!">
+                    <div className="mb-8!">
                         <h2 className="text-base! font-semibold!">
                             Spending trend
                         </h2>
@@ -136,7 +137,7 @@ export default function Reports() {
                 <div className="grid gap-4 lg:grid-cols-1">
                     {/* Categories */}
                     <section className="rounded-md border p-4! bg-(--chakra-colors-bg-subtle) sm:p-5!">
-                        <div className="mb-5!">
+                        <div className="mb-8!">
                             <h2 className="text-base! font-semibold!">
                                 Spending by category
                             </h2>
@@ -146,10 +147,23 @@ export default function Reports() {
                             </p>
                         </div>
 
-                        <div className="flex h-64 items-center justify-center rounded-xl bg-(--chakra-colors-bg-subtle)">
-                            <SpendByCategoryChart />
-                        </div>
+                            
+                            {/* <div className="h-64 rounded-xl bg-(--chakra-colors-bg-subtle)"> */}
+                            <ScrollArea.Root height="64" size="xs" >
+                                <ScrollArea.Viewport>
+                                <ScrollArea.Content   paddingEnd="5">
+                                    <SpendByCategoryChart spendingByCategory={monthlyReport.spendingByCategory} />
+                                </ScrollArea.Content>
+                                </ScrollArea.Viewport>
+                                <ScrollArea.Scrollbar>
+                                <ScrollArea.Thumb />
+                                </ScrollArea.Scrollbar>
+                                <ScrollArea.Corner />
+                            </ScrollArea.Root>
+                            {/* </div> */}
+                            
                     </section>
+
 
                     {/* Wallets */}
                     {/* <section className="rounded-md border p-4! bg-(--chakra-colors-bg-subtle) sm:p-5!">

@@ -61,7 +61,7 @@ export default function TransactionControls({
                     </Popover.Trigger>
                     <Portal>
                         <Popover.Positioner>
-                            <Popover.Content bg={'bg.panel'}>
+                            <Popover.Content bg={'bg.panel'} h="80" overflow="auto">
                                 {/* <Popover.Arrow /> */}
                                 <Popover.Body>
                                     {/* <Popover.Title fontWeight="medium" mb="6">Filters</Popover.Title> */}

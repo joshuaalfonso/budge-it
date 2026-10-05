@@ -4,7 +4,6 @@ import {
     LuHouse,
     LuReceiptText,
     LuWallet,
-    LuPlus
 } from "react-icons/lu";
 import { NavLink } from "react-router-dom";
 
@@ -35,10 +34,10 @@ const navItems = [
 export default function MobileNav() {
 
   const colors = {
-    red: "bg-red-400/10 text-red-400!",
-    blue: "bg-blue-400/10 text-blue-400!",
-    green: "bg-green-400/10 text-green-400!",
-    orange: "bg-orange-400/10 text-orange-400!",
+    red: "bg-red-400/10 text-red-500!",
+    blue: "bg-blue-400/10 text-blue-500!",
+    green: "bg-green-400/10 text-green-500!",
+    orange: "bg-orange-400/10 text-orange-500!",
   };
 
   const color = colors[colorPallette];

@@ -15,7 +15,9 @@ const CategoryRow = ({category}: {category: Category}) => {
         >
             <div className="flex items-center gap-3">
     
-                <span className="text-2xl!">{category.icon}</span>
+                <div className="place-items-center w-9">
+                    <span className="text-2xl!">{category.icon}</span>
+                </div>
 
                 <div>
                     <p className="text-sm! font-medium text-(--chakra-colors-fg)">
