@@ -10,8 +10,8 @@ import { CalendarDate } from "@internationalized/date"
 import { useState } from "react";
 import { colorPallette } from "@/constants";
 
-export default function Reports() {
-
+export default function Reports() { 
+ 
     const currentDate = new Date();
 
     const [selectedDate, setSelectedDate] = useState<DateValue[]>([parseDate(currentDate)]);
