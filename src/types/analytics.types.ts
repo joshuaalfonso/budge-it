@@ -16,6 +16,9 @@ export interface Filters {
 export interface Summary {
   totalIncome: number
   totalExpense: number
+  incomePercentage: number
+  expensePercentage: number
+  savingsPercentage: number
   savings: number
   totalTransactions: number
 }

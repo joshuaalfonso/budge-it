@@ -124,10 +124,23 @@ export default function Reports() {
                             {formatCurrency(monthlyReport.summary.totalIncome)}
                         </p>
 
-                        <div className="mt-2! flex items-center gap-1 text-xs! text-emerald-600 dark:text-emerald-400">
-                            <LuArrowUpRight size={14} />
-                            12.4%
-                        </div>
+                        {monthlyReport.summary.incomePercentage != null && (
+                            <div
+                                className={`mt-2! flex items-center gap-1 text-xs! ${
+                                    monthlyReport.summary.incomePercentage >= 0
+                                        ? "text-emerald-600 dark:text-emerald-400"
+                                        : "text-red-600 dark:text-red-400"
+                                }`}
+                            >
+                                {monthlyReport.summary.incomePercentage >= 0 ? (
+                                    <LuArrowUpRight size={14} />
+                                ) : (
+                                    <LuArrowDownRight size={14} />
+                                )}
+
+                                {Math.abs(monthlyReport.summary.incomePercentage).toFixed(1)}%
+                            </div>
+                        )}
                     </div>
 
                     <div className="rounded-md p-4! bg-(--chakra-colors-bg-subtle)">
@@ -140,10 +153,23 @@ export default function Reports() {
                             {formatCurrency(monthlyReport.summary.totalExpense)}
                         </p>
 
-                        <div className="mt-2! flex items-center gap-1 text-xs! text-red-600 dark:text-red-400">
-                            <LuArrowDownRight size={14} />
-                            8.2%
-                        </div>
+                        {monthlyReport.summary.expensePercentage != null && (
+                            <div
+                                className={`mt-2! flex items-center gap-1 text-xs! ${
+                                    monthlyReport.summary.expensePercentage >= 0
+                                        ? "text-red-600 dark:text-red-400"
+                                        : "text-green-600 dark:text-green-400"
+                                }`}
+                            >
+                                {monthlyReport.summary.expensePercentage >= 0 ? (
+                                    <LuArrowUpRight size={14} />
+                                ) : (
+                                    <LuArrowDownRight size={14} />
+                                )}
+
+                                {Math.abs(monthlyReport.summary.expensePercentage).toFixed(1)}%
+                            </div>
+                        )}
                     </div>
 
                      <div className="rounded-md p-4! bg-(--chakra-colors-bg-subtle)">
@@ -157,7 +183,8 @@ export default function Reports() {
                         </p>
 
                         <p className="mt-2! flex items-center gap-1 text-xs! text-(--chakra-colors-fg-muted)">
-                            47.1% of income
+                            {monthlyReport.summary.savingsPercentage != null ? monthlyReport.summary.savingsPercentage.toFixed(1) : 0}%
+                            of income
                         </p>
                     </div>
 

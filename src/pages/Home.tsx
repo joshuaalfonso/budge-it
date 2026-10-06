@@ -100,7 +100,7 @@ const Home = () => {
                                 onClick={() => login()}
                             >
                                 Start budgeting
-                            </button>
+                            </button> 
                         </div>
 
                         <p className="mt-4! text-xs! font-medium! text-(--chakra-colors-fg-subtle)">
