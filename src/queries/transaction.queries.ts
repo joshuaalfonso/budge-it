@@ -24,6 +24,7 @@ export const useCreateTransaction = () => {
             queryClient.invalidateQueries({ queryKey: ['dashboard'] })
             queryClient.invalidateQueries({ queryKey: ['wallet'] })
             queryClient.invalidateQueries({ queryKey: ['analytics_monthly_report'] })
+            queryClient.invalidateQueries({ queryKey: ['analytics_yearly_report'] })
         },
     })
 }
@@ -38,6 +39,7 @@ export const useUpdateTransaction = () => {
             queryClient.invalidateQueries({ queryKey: ['dashboard'] })
             queryClient.invalidateQueries({ queryKey: ['wallet'] })
             queryClient.invalidateQueries({ queryKey: ['analytics_monthly_report'] })
+            queryClient.invalidateQueries({ queryKey: ['analytics_yearly_report'] })
         },
     })
 }
@@ -52,6 +54,7 @@ export const useDeleteTransaction = () => {
             queryClient.invalidateQueries({ queryKey: ['dashboard'] })
             queryClient.invalidateQueries({ queryKey: ['wallet'] })
             queryClient.invalidateQueries({ queryKey: ['analytics_monthly_report'] })
+            queryClient.invalidateQueries({ queryKey: ['analytics_yearly_report'] })
         },
     })
 }

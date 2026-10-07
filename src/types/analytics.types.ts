@@ -8,6 +8,14 @@ export interface MonthlyReport {
   spendingByCategory: SpendingByCategory[]
 }
 
+export interface YearlyReport {
+  filters: Filters
+  summary: Summary;
+  monthlySummary: MonthlySummary[];
+  spendingByCategory: SpendingByCategory[];
+}
+
+
 export interface Filters {
   year: number
   month: number
@@ -28,6 +36,14 @@ export interface DailySpending {
   totalExpense: string
 }
 
+export interface MonthlySummary {
+  month: number
+  totalIncome: number
+  totalExpense: number
+  savings: number
+  totalTransactions: number
+}
+
 export interface SpendingByCategory {
   categoryId: number
   categoryName: string
@@ -35,3 +51,22 @@ export interface SpendingByCategory {
   color?: string
   total: string
 }
+
+
+export type ReportTab = "month" | "year";
+
+export type ReportPeriod =
+    | {
+          type: "month";
+          month: number;
+          year: number;
+      }
+    | {
+          type: "year";
+          year: number;
+      };
+
+
+
+
+

@@ -1,14 +1,21 @@
-import type { MonthlyReport } from "@/types/analytics.types";
+import type { MonthlyReport, YearlyReport } from "@/types/analytics.types";
 import { api } from "./axios"
 
 
-const TABLE_NAME = 'dashboard/analytics';
+const TABLE_NAME = 'dashboard';
 
 
 export const analyticsApi =  {
 
     getMonthlyReport: async (params?: { month?: number; year?: number }) => {
-        const response = await api.get<MonthlyReport>(`${TABLE_NAME}`, {
+        const response = await api.get<MonthlyReport>(`${TABLE_NAME}/monthly-report`, {
+            params,
+        });
+        return response.data;
+    },
+
+    getYearlyReport: async (params?: { year?: number }) => {
+        const response = await api.get<YearlyReport>(`${TABLE_NAME}/yearly-report`, {
             params,
         });
         return response.data;
