@@ -28,7 +28,7 @@ const SpendByCategoryChart = ({spendingByCategory}: Props) => {
     return (
         <BarList.Root chart={chart} w="w-full">
         <BarList.Content>
-            <BarList.Bar />
+            <BarList.Bar tooltip />
             <BarList.Value />
         </BarList.Content>
         </BarList.Root>

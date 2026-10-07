@@ -4,7 +4,7 @@ import {
     Tabs,
     type DateValue,
 } from "@chakra-ui/react";
-import { CalendarDate } from "@internationalized/date";
+import { CalendarDate, parseDate } from "@internationalized/date";
 import { LuCalendar } from "react-icons/lu";
 
 import { colorPallette } from "@/constants";
@@ -66,6 +66,12 @@ interface PickerProps {
     onChange: (value: DateValue[]) => void;
 }
 
+const today = new Date();
+
+const maxDate = parseDate(
+    `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-01`
+);
+
 function MonthPicker({ value, onChange }: PickerProps) {
     const format = (date: DateValue) => {
         const month = date.month.toString().padStart(2, "0");
@@ -101,6 +107,7 @@ function MonthPicker({ value, onChange }: PickerProps) {
             placeholder="mm/yyyy"
             maxWidth="10rem"
             bg="bg.subtle"
+            max={maxDate}
         >
             <DatePicker.Control>
                 <DatePicker.Input colorPalette={colorPallette} />
@@ -181,6 +188,7 @@ function YearPicker({ value, onChange }: PickerProps) {
             placeholder="yyyy"
             maxWidth="10rem"
             bg="bg.subtle"
+               max={maxDate}
         >
             <DatePicker.Control>
                 <DatePicker.Input />

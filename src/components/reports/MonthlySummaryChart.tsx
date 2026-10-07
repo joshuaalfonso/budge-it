@@ -37,7 +37,7 @@ export const MonthlySummaryChart = ({monthlySummary}: Props) => {
                     tickLine={false}
                     dataKey={chart.key("month")}
                     tickFormatter={(value) => {
-                        return value
+                        return value.substring(0, 3) 
                     }}
                 />
                 <Tooltip

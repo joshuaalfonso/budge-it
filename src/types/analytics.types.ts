@@ -37,7 +37,7 @@ export interface DailySpending {
 }
 
 export interface MonthlySummary {
-  month: number
+  month: string
   totalIncome: number
   totalExpense: number
   savings: number

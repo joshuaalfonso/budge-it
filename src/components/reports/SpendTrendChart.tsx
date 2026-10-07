@@ -28,6 +28,7 @@ const SpendTrendChart = ({ dailySpending, totalExpense }: Props) => {
         series: [
             {
                 name: "totalExpense",
+                label: "Total Expense",
                 color: `${colorPallette}.emphasized`,
             },
         ],
@@ -51,13 +52,17 @@ const SpendTrendChart = ({ dailySpending, totalExpense }: Props) => {
                 axisLine={false}
                 tickLine={false}
                 dataKey={chart.key("day")}
-               interval={2}
+                interval={2}
             />
 
             <YAxis
-            axisLine={false}
-            tickLine={false}
-            tickFormatter={(value) => `${value}`}
+                axisLine={false}
+                tickLine={false}
+                tickFormatter={chart.formatNumber({
+                    style: "decimal",
+                    // currency: "PHP",
+                    notation: "compact",
+                })}
             />
 
             <Tooltip

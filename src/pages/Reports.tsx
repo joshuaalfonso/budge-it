@@ -4,7 +4,8 @@ import { useReportPeriod } from "@/hooks/useReportPeriod";
 import ReportSummary from "@/components/reports/ReportSummary";
 import SpendingTrendSection from "@/components/reports/SpendTrendSection";
 import { useReport } from "@/hooks/useReports";
-import { MonthlySummaryChart } from "@/components/reports/MonthlySummaryChart";
+import SpendingByCategorySection from "@/components/reports/SpendTopByCategorySection";
+import { MonthlySummarySection } from "@/components/reports/MonthlySummarySection";
 
 export default function Reports() { 
 
@@ -54,15 +55,15 @@ export default function Reports() {
             ) : null}
 
             {period.type === "year" && report && "monthlySummary" in report ? (
-                <MonthlySummaryChart
+                <MonthlySummarySection
                   monthlySummary={report.monthlySummary ?? []}
                 />
             ) : null}
+                
+            <SpendingByCategorySection
+                spendingByCategory={report?.spendingByCategory ?? []}
+            />
 
-                {/* <SpendingByCategorySection
-                    spendingByCategory={report.spendingByCategory ?? []}
-                    period={period}
-                /> */}
             </div>
 
             {/* <div className="space-y-4! sm:space-y-6!">
