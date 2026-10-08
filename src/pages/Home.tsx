@@ -5,25 +5,34 @@ import { toaster } from "@/components/ui/toaster";
 import HomeMockUp from '../assets/home-mockup.webp'
 import ReportMockUp from '../assets/report-mockup3.webp'
 import Wallet from '../assets/wallet-logo.png'
+import { useState } from "react";
+import { Button } from "@chakra-ui/react";
+import { colorPallette } from "@/constants";
 
 
 const Home = () => {
+
+    const [isLoggingIn, setIsLoggingIn] = useState(false);
 
     const navigate = useNavigate();
 
     const login = useGoogleLogin({
         flow: 'auth-code',
         onSuccess: async (codeResponse) => {
+            setIsLoggingIn(true);
             try {
                 await verifyGoogleCredential(codeResponse.code);
                 navigate("/dashboard");
 
             } catch (error) {
+                setIsLoggingIn(false);
                 console.error('Google login error:', error);
                 toaster.create({
                     title: 'Something went wrong',
                     type: 'error'
                 })
+            } finally {
+                setIsLoggingIn(false);
             }
         },
         onError: (errorResponse) => {
@@ -36,24 +45,6 @@ const Home = () => {
     });
 
     return (
-        // <div className="h-dvh grid place-items-center">
-        //     <GoogleLogin
-        //         onSuccess={async (response) => {
-        //             if (!response.credential) {
-        //                 return;
-        //             }
-
-        //             try {
-        //                 const result = await verifyGoogleCredential(response.credential);
-        //                 console.log(result);
-        //                 navigate("/dashboard");
-        //             } catch (error) {
-        //                 console.error(error);
-        //             }
-        //         }}
-        //         onError={() => console.log("error")}
-        //     />
-        // </div>
 
         <main className="min-h-screen ">
 
@@ -67,13 +58,15 @@ const Home = () => {
                     </span>
                 </a>
 
-                <button
+                <Button
                     type="button"
-                    className="cursor-pointer rounded-full bg-blue-500! px-5! py-2.5! text-sm! font-medium! text-white transition hover:bg-blue-600!"
                     onClick={() => login()}
+                    disabled={isLoggingIn}
+                    colorPalette={colorPallette}
+                    rounded="full"
                 >
-                    Get started
-                </button>
+                    {isLoggingIn ? "Logging in..." : "Log in"}
+                </Button>
             </nav>
 
             <section className="mx-auto! max-w-6xl! px-6! pb-24! pt-16! lg:pt-28!">
@@ -95,13 +88,14 @@ const Home = () => {
                         </p>
 
                         <div className="mt-9! flex flex-col gap-3 sm:flex-row!">
-                            <button
+                            <Button
                                 type="button"
-                                className="cursor-pointer rounded-full bg-blue-500! px-6! py-3.5! text-center text-sm! font-semibold! text-white transition hover:bg-blue-600!"
+                                colorPalette={colorPallette}
                                 onClick={() => login()}
+                                rounded="full"
                             >
                                 Start budgeting
-                            </button> 
+                            </Button> 
                         </div>
 
                         <p className="mt-4! text-xs! font-medium! text-(--chakra-colors-fg-subtle)">
@@ -234,7 +228,7 @@ const Home = () => {
 
             <section className="px-6! py-24! lg:py-32!">
 
-                <div className="mx-auto! max-w-6xl! overflow-hidden! rounded-[2rem]! bg-blue-500! px-6! py-20! text-center! sm:px-12! lg:py-24!">
+                <div className="mx-auto! max-w-6xl! overflow-hidden! rounded-4xl! bg-blue-500! px-6! py-20! text-center! sm:px-12! lg:py-24!">
 
                     <h2 className="mx-auto! max-w-2xl! text-4xl! font-semibold! leading-tight! tracking-[-0.035em]! text-white! sm:text-5xl!">
                         Ready to know where your money goes?
@@ -245,20 +239,26 @@ const Home = () => {
                         that works for you.
                     </p>
 
-                    <button
+                    <Button
                         type="button"
-                        className="mt-8! cursor-pointer rounded-full bg-white! px-6! py-3.5! text-sm! font-semibold! text-blue-500! transition hover:bg-blue-50!"
                         onClick={() => login()}
+                        disabled={isLoggingIn}
+                        bg="white"
+                        color="blue.500"
+                        rounded="full"
+                        mt={8}
+                        fontSize="sm"
+                        fontWeight="semibold"
+                        _hover={{ bg: "blue.50" }}
                     >
-                        Start budgeting
-                    </button>
+                        {isLoggingIn ? "Logging in..." : "Start budgeting"}
+                    </Button>
 
                 </div>
 
             </section>
 
             <footer className="mx-auto! flex max-w-6xl! flex-col gap-4! px-6! pb-8! pt-2! sm:flex-row! sm:items-center! sm:justify-between!">
-
 
                 <span className="text-sm! font-medium!">
                     budge it.
@@ -269,139 +269,7 @@ const Home = () => {
                 </p>
 
             </footer>
-
-
-
-            {/* <section
-                id="features"
-                className="border-y! bg-(--chakra-colors-bg-subtle)"
-            >
-                <div className="mx-auto! max-w-6xl! px-6! py-20! lg:py-24!">
-                <div className="max-w-2xl!">
-                    <p className="text-sm! font-semibold! text-blue-500">
-                        Everything you actually need
-                    </p>
-
-                    <h2 className="mt-3! text-3xl! font-semibold! tracking-[-0.03em]! sm:text-4xl!">
-                        Less spreadsheet. More clarity.
-                    </h2>
-
-                    <p className="mt-4! leading-7! text-(--chakra-colors-fg-muted)">
-                        Budge It keeps the useful stuff close and leaves the financial
-                        jargon behind.
-                    </p>
-                </div>
-
-                <div className="mt-12! grid gap-4 md:grid-cols-3">
-                    {[
-                    {
-                        number: "01",
-                        title: "Set a budget",
-                        description:
-                        "Give every category a limit that makes sense for your month.",
-                    },
-                    {
-                        number: "02",
-                        title: "Track spending",
-                        description:
-                        "Add expenses in seconds and see exactly where your money is going.",
-                    },
-                    {
-                        number: "03",
-                        title: "Stay on course",
-                        description:
-                        "Simple progress views help you catch overspending before it piles up.",
-                    },
-                    ].map((feature) => (
-                    <article
-                        key={feature.number}
-                        className="rounded-2xl border! p-7!"
-                    >
-                        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-500/10 text-xs! font-semibold! text-blue-500">
-                            {feature.number}
-                        </span>
-
-                        <h3 className="mt-6! text-lg! font-semibold!">
-                            {feature.title}
-                        </h3>
-
-                        <p className="mt-2! text-sm! leading-6! text-(--chakra-colors-fg-muted)">
-                            {feature.description}
-                        </p>
-                    </article>
-                    ))}
-                </div>
-                </div>
-            </section> */}
-
-            {/* <section
-                id="how-it-works"
-                className="mx-auto! max-w-6xl! px-6! py-20! lg:py-28!"
-            >
-                <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-                <div>
-                    <p className="text-sm! font-semibold! text-blue-500">
-                        How it works
-                    </p>
-
-                    <h2 className="mt-3! text-3xl! font-semibold! tracking-[-0.03em]! sm:text-4xl!">
-                        Start with what you have.
-                    </h2>
-
-                    <p className="mt-5! max-w-lg! leading-7! text-(--chakra-colors-fg-muted)">
-                        You don't need a perfect financial plan. Add your income, pick a
-                        few spending categories, and let Budge It make the picture easier
-                        to understand.
-                    </p>
-                </div>
-
-                <div className="space-y-3!">
-                    {[
-                    "Add your monthly income",
-                    "Choose your spending limits",
-                    "Log expenses as they happen",
-                    "Check in whenever you want",
-                    ].map((step, index) => (
-                    <div
-                        key={step}
-                        className="flex items-center gap-4 rounded-2xl border! p-4!"
-                    >
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500 text-sm! font-semibold! text-white">
-                            {index + 1}
-                        </span>
-
-                        <span className="text-sm! font-medium! text-(--chakra-colors-fg-emphasized)">
-                        {step}
-                        </span>
-                    </div>
-                    ))}
-                </div>
-                </div>
-            </section>
-
-            <section id="get-started" className="px-6! pb-20! lg:pb-28!">
-                <div className="mx-auto! max-w-6xl! rounded-3xl bg-blue-500 px-7! py-12! text-center sm:px-12! sm:py-16!">
-                <h2 className="text-3xl! font-semibold! tracking-[-0.03em] text-white sm:text-4xl!">
-                    Your money. A little less messy.
-                </h2>
-
-                <p className="mx-auto! mt-4! max-w-xl! leading-7! text-blue-100">
-                    Start with Budge It and make your next month easier to understand.
-                </p>
-
-                <button className="mt-8! rounded-full bg-white! px-6! py-3.5! text-sm! font-semibold! text-blue-500! transition">
-                    Create your budget
-                </button>
-                </div>
-            </section>
-
-            <footer id="about" className="border-t! ">
-                <div className="mx-auto! flex max-w-6xl! flex-col gap-4 px-6! py-8! text-sm! text-(--chakra-colors-fg-muted) sm:flex-row sm:items-center sm:justify-between">
-                <span className="font-semibold! text-(--chakra-colors-fg-subtle)">budge it.</span>
-                <span>Simple tools for better money habits.</span>
-                <span>© 2026 Budge It</span>
-                </div>
-            </footer> */}
+           
         </main>
     );
 };

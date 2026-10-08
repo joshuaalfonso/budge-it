@@ -50,7 +50,7 @@ export default function Sidebar() {
                     <img src={wallet} alt="logo" />
                 </div>
                 <h1 className="text-lg! font-semibold!">
-                    Budge It
+                    budge it
                 </h1>
             </div>
 
