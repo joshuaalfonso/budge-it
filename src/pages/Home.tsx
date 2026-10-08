@@ -11,8 +11,6 @@ const Home = () => {
 
     const navigate = useNavigate();
 
-
-
     const login = useGoogleLogin({
         flow: 'auth-code',
         onSuccess: async (codeResponse) => {

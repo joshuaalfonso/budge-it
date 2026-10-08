@@ -26,9 +26,10 @@ export default function Header() {
             setIsLoggingOut(true);
             await logout();
 
-            queryClient.removeQueries({
-                queryKey: ["me"],
-            });
+            // queryClient.removeQueries({
+            //     queryKey: ["me"],
+            // });
+             queryClient.clear()
 
             navigate("/login");
         } catch (error) {
