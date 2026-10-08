@@ -17,9 +17,9 @@ const Home = () => {
         flow: 'auth-code',
         onSuccess: async (codeResponse) => {
             try {
-                const response = await verifyGoogleCredential(codeResponse.code);
+                const { user } = await verifyGoogleCredential(codeResponse.code);
                 toaster.create({
-                    description: `Welcome ${response.name} 🥳!`
+                    description: `Welcome ${user?.name ?? "there"} 🥳!`
                 })
                 navigate("/dashboard");
 

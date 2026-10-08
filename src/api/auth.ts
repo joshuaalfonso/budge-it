@@ -4,7 +4,7 @@ import { api } from "./axios";
 
 export const verifyGoogleCredential = async (code: string) => {
 
-    const response = await api.post<AuthUser>("/auth/google", {
+    const response = await api.post<{user: AuthUser}>("/auth/google", {
         code,
     });
 
