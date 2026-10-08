@@ -1,6 +1,6 @@
 import { logout } from "@/api/auth";
 import { useColorMode } from "@/components/ui/color-mode";
-import wallet from '../assets/wallet-logo.png'
+import wallet from '../assets/wallet-logo.webp'
 import { useMe } from "@/queries/auth.queries";
 import { Avatar, Menu, Portal } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";

@@ -2,8 +2,8 @@ import {  useGoogleLogin } from "@react-oauth/google";
 import { verifyGoogleCredential } from "../api/auth";
 import { useNavigate } from "react-router-dom";
 import { toaster } from "@/components/ui/toaster";
-import MobileMockUp from '../assets/home-ss-3.png'
-import ReportsMockUp from '../assets/reports-ss.png'
+import HomeMockUp from '../assets/home-mockup.webp'
+import ReportMockUp from '../assets/report-mockup3.webp'
 import Wallet from '../assets/wallet-logo.png'
 
 
@@ -116,7 +116,7 @@ const Home = () => {
 
                     <div className="flex justify-center md:justify-end">
                         <img
-                            src={MobileMockUp}
+                            src={HomeMockUp}
                             alt="Budge It mobile app"
                             className="h-auto w-64"
                         />
@@ -133,7 +133,7 @@ const Home = () => {
                         {/* APP SCREENSHOT / DASHBOARD IMAGE */}
                         <div className="flex justify-center md:justify-start order-2 md:order-1">
                             <img
-                                src={ReportsMockUp}
+                                src={ReportMockUp}
                                 alt="Budge It budget overview"
                                 className="h-auto w-64"
                             />
