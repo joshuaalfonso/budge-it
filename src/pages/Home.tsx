@@ -6,15 +6,21 @@ import MobileMockUp from '../assets/home-ss-3.png'
 import ReportsMockUp from '../assets/reports-ss.png'
 import Wallet from '../assets/wallet-logo.png'
 
+
 const Home = () => {
 
     const navigate = useNavigate();
+
+
 
     const login = useGoogleLogin({
         flow: 'auth-code',
         onSuccess: async (codeResponse) => {
             try {
-                await verifyGoogleCredential(codeResponse.code);
+                const response = await verifyGoogleCredential(codeResponse.code);
+                toaster.create({
+                    description: `Welcome ${response.name} 🥳!`
+                })
                 navigate("/dashboard");
 
             } catch (error) {
