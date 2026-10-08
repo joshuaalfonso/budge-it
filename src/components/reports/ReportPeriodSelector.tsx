@@ -1,10 +1,11 @@
 import {
     DatePicker,
+    parseDate,
     Portal,
     Tabs,
     type DateValue,
 } from "@chakra-ui/react";
-import { CalendarDate, parseDate } from "@internationalized/date";
+// import { CalendarDate, parseDate } from "@internationalized/date";
 import { LuCalendar } from "react-icons/lu";
 
 import { colorPallette } from "@/constants";
@@ -80,18 +81,24 @@ function MonthPicker({ value, onChange }: PickerProps) {
         return `${month}/${year}`;
     };
 
-    const parse = (value: string) => {
+    const parse = (value: string): DateValue | undefined => {
         const regex = /^(\d{1,2})\/(\d{4})$/;
         const match = value.match(regex);
 
         if (!match) {
-            return;
+            return undefined;
         }
 
         const month = Number(match[1]);
         const year = Number(match[2]);
 
-        return new CalendarDate(year, month, 1);
+        if (month < 1 || month > 12) {
+            return undefined;
+        }
+
+        return parseDate(
+            `${year}-${String(month).padStart(2, "0")}-01`,
+        );
     };
 
     return (
@@ -151,28 +158,24 @@ function YearPicker({ value, onChange }: PickerProps) {
 
     const parse = (value: string | undefined) => {
         if (!value) {
-            return;
+            return undefined;
         }
 
         const year = Number(value);
 
         if (Number.isNaN(year)) {
-            return;
+            return undefined;
         }
 
         if (year < 100) {
             const currentYear = new Date().getFullYear();
-            const currentCentury =
-                Math.floor(currentYear / 100) * 100;
+            const currentCentury = Math.floor(currentYear / 100) * 100;
+            const fullYear = currentCentury + year;
 
-            return new CalendarDate(
-                currentCentury + year,
-                1,
-                1
-            );
+            return parseDate(`${fullYear}-01-01`);
         }
 
-        return new CalendarDate(year, 1, 1);
+        return parseDate(`${year}-01-01`);
     };
 
     return (

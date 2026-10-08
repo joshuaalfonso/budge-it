@@ -1,12 +1,12 @@
 import type {
     ReportPeriod,
-    ReportSummary as ReportSummaryData,
+    Summary
 } from "@/types/analytics.types";
 import ReportSummaryCard from "./ReportSummaryCard";
 
 
 interface ReportSummaryProps {
-    summary: ReportSummaryData;
+    summary?: Summary;
     period: ReportPeriod;
 }
 
@@ -18,6 +18,13 @@ export default function ReportSummary({
         period.type === "month"
             ? "This month"
             : "This year";
+
+
+    if (!summary) return (
+        <div className="h-10 p-4! bg-(--chakra-colors-bg-sublte) grid place-items-center">
+            No summary found
+        </div>
+    )
 
     return (
         <section className="grid grid-cols-2 gap-3 lg:grid-cols-3">
