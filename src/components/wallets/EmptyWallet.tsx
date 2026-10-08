@@ -4,8 +4,18 @@ import { motion, type Variants } from "framer-motion";
 import WalletDialog from "./WalletDialog";
 import { useWalletDialogStore } from "@/stores/wallet.store";
 import { colorPallette } from "@/constants";
+import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { logout } from "@/api/auth";
+import { useNavigate } from "react-router-dom";
+import { toaster } from "../ui/toaster";
 
 const EmptyWallet = () => {
+
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
     const { data: user } = useMe();
     const setOpen = useWalletDialogStore((state) => state.setOpen)
@@ -42,6 +52,28 @@ const EmptyWallet = () => {
         },
     };
 
+    const handleLogout = async () => {
+        try {
+            setIsLoggingOut(true);
+            await logout();
+
+            // queryClient.removeQueries({
+            //     queryKey: ["me"],
+            // });
+                queryClient.clear()
+
+            navigate("/login");
+        } catch (error) {
+            console.error("Logout failed", error);
+            toaster.create({
+                description: 'Something went wrong',
+                type: 'error'
+            })
+        } finally {
+            setIsLoggingOut(false);
+        }
+    };
+
     return (
         <div className="h-dvh grid place-items-center">
             <motion.div
@@ -58,7 +90,7 @@ const EmptyWallet = () => {
                         <img src={user?.picture} alt="Icon" className="rounded-full h-15 w-15" />
                     </div>
                     <h1 className="text-2xl! font-semibold! tracking-tight!">
-                        Welcome {user?.name}! 👋
+                        Hi {user?.name}! 👋
                     </h1>
 
                     <p className="text-(--chakra-colors-fg-muted) leading-relaxed!">
@@ -101,6 +133,15 @@ const EmptyWallet = () => {
                     <p className="text-sm text-gray-400">
                         You can add more wallets later.
                     </p>
+
+                    <Button 
+                        variant="ghost" 
+                        loading={isLoggingOut} 
+                        onClick={() => handleLogout()}
+                    >
+                        Logout
+                    </Button>
+
                 </motion.div>
             </motion.div>
 

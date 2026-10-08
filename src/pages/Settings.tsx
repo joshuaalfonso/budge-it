@@ -3,20 +3,16 @@ import CategoryDialog from "@/components/settings/CategoryDialog";
 import Preferences from "@/components/settings/Preferences"
 import { colorPallette } from "@/constants"
 import { useCategoryDialogStore } from "@/stores/category.store";
-import { Button } from "@chakra-ui/react";
+import { Button  } from "@chakra-ui/react";
 import { useCategory } from "@/queries/category.queries";
-import { Tooltip } from "@/components/ui/tooltip";
-import { LuCircleAlert, LuFileDown, LuFileUp } from "react-icons/lu";
-
-
-
+import DeleteTransactionAlert from "@/components/settings/DeleteTransactionAlert";
+import DeleteAllDataAlert from "@/components/settings/DeleteAllData";
 
 const Settings = () => {
 
     const { data: categories, isPending: isLoading, error } = useCategory();
 
     const setOpen = useCategoryDialogStore((state) => state.setOpen);
-
 
     return (
         <div className="space-y-8!">
@@ -44,7 +40,7 @@ const Settings = () => {
                             </h2>
                         </div>
 
-                        <Button size="xs" variant="subtle" colorPalette={colorPallette} onClick={() => setOpen(true)}>
+                        <Button size="sm" variant="ghost" colorPalette={colorPallette} onClick={() => setOpen(true)}>
                             {/* <LuPlus /> */}
                             <span>Add Category</span>
                         </Button>
@@ -66,99 +62,45 @@ const Settings = () => {
                     <h2 className="text-sm! font-semibold! text-(--chakra-colors-fg-muted)">
                         Data management
                     </h2>
-                    {/* <p className="text-sm text-gray-500">
-                        Export, import, or manage your budget data.
-                    </p> */}
                 </div>
 
                 <div className="divide-y!  rounded-xl  bg-(--chakra-colors-bg-subtle) ">
-                    <div className="flex items-center justify-between gap-4 px-6! py-3!">
-                        <div>
-                            <p className="text-sm! font-medium text-(--chakra-colors-fg-muted)">
-                                Export Data
-                            </p>
-                            {/* <p className="mt-0.5 text-sm text-gray-500">
-                                Download your transactions as a CSV file.
-                            </p> */}
-                        </div>
-
-                        <Button size="sm" variant="outline">
-                            <LuFileUp />
-                            Export
-                        </Button>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-4 px-6! py-3!">
-                        <div>
-                            <p className="text-sm! font-medium! text-(--chakra-colors-fg-muted)">
-                                Import Data
-                            </p>
-                            {/* <p className="mt-0.5 text-sm text-gray-500">
-                                Import transactions from a CSV file.
-                            </p> */}
-                        </div>
-
-                        <Button size="sm" variant="outline">
-                            <LuFileDown />
-                            Import
-                        </Button>
-                    </div>
 
                     <div className="flex items-center justify-between gap-4 px-6! py-3!">
                         <div>
                             <p className="text-sm! font-medium! text-(--chakra-colors-fg-muted)">
                                 Clear Transactions
                             </p>
-                            <p className="mt-0.5! text-sm! text-(--chakra-colors-fg-subtle) w-50 md:w-auto">
+                            <p className="mt-0.5! text-xs! text-(--chakra-colors-fg-subtle) w-50 md:w-auto">
                                 Remove all transactions while keeping your categories.
                             </p>
                         </div>
 
-                        <Button size="sm" colorPalette="red" variant="subtle" rounded="md">
-                           Clear Data
-                        </Button>
+                        <DeleteTransactionAlert />
+
                     </div>
-                </div>
-            </section>
 
-            {/* Danger Zone */}
-            <section className="space-y-3!">
-                <div>
-                    <h2 className="text-sm! font-semibold! text-red-400">
-                        Danger zone
-                    </h2>
-                    {/* <p className="text-sm! text-(--chakra-colors-fg-muted)">
-                        These actions cannot be undone.
-                    </p> */}
-                </div>
+                    <div className="rounded-xl border bg-(--chakra-colors-bg-subtle) px-6! py-3!">
+                        <div className="flex items-center justify-between gap-4">
+                            <div>
+                                <p className="text-sm! font-medium! text-(--chakra-colors-fg-muted)">
+                                    Reset Data
+                                </p>
+                                <p className="mt-0.5! text-xs! text-(--chakra-colors-fg-subtle) w-50 md:w-auto">
+                                    Permanently delete your transactions, wallets,
+                                    and categories.
+                                </p>
+                            </div>
 
-                <div className="rounded-xl border bg-(--chakra-colors-bg-subtle) px-6! py-3!">
-                    <div className="flex items-center justify-between gap-4">
-                        <div className="flex items-center">
-                            <p className="text-sm! font-medium! text-(--chakra-colors-fg-muted)">
-                                Reset Data
-                            </p>
-                            <Tooltip 
-                                content="Permanently delete your transactions, wallets,
-                                and categories."
-                                // contentProps={{ css: { "--tooltip-bg": "colors.red.200" } }}
-                            >
-                                <Button variant="plain" size="xs">
-                                    <LuCircleAlert />
-                                </Button>
-                            </Tooltip>
-                            {/* <p className="mt-0.5! text-sm! text-(--chakra-colors-fg-subtle) w-50 md:w-auto">
-                                Permanently delete your transactions, wallets,
-                                and categories.
-                            </p> */}
+                            <DeleteAllDataAlert />
+
                         </div>
-
-                        <Button size="sm" colorPalette="red" variant="subtle" rounded="md">
-                            Delete everything
-                        </Button>
                     </div>
+
                 </div>
             </section>
+
+          
         </div>
     )
 }
